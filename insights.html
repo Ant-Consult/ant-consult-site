@@ -29,7 +29,7 @@
   .nav-link:hover { color:#fff; border-bottom-color:rgba(244,162,88,0.55); }
 
   .nav-drop { position:relative; display:flex; align-items:center; }
-  .nav-drop-panel { position:absolute; top:100%; left:50%; padding-top:18px; min-width:288px; z-index:20; opacity:0; visibility:hidden; transform:translate(-50%, 8px); transition:opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; }
+  .nav-drop-panel { position:absolute; top:100%; left:50%; padding-top:18px; min-width:288px; z-index:20; opacity:0; visibility:hidden; transform:translate(-50%, 8px); transition:opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; will-change:opacity, transform; }
   .nav-drop:hover .nav-drop-panel { opacity:1; visibility:visible; transform:translate(-50%, 0); }
   .nav-drop-item { transition:background 140ms ease; }
   .nav-drop-item:hover { background:#F1F6F4; }
@@ -127,14 +127,14 @@
         <a href="solutions.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Solutions</a>
         <div class="nav-drop-panel"><div style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; box-shadow:0 24px 60px rgba(4,40,46,0.22); padding:14px; display:flex; flex-direction:column; gap:2px;">
           <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B96A22; font-weight:600; padding:6px 16px 10px;">Services</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Feasibility Studies</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Masterplans</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Commercial Irrigation Design</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Irrigation Upgrades</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Bulk Water Supply</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">System Assessments</div>
+          <a href="feasibility-studies.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Feasibility Studies</a>
+          <a href="masterplans.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Masterplans</a>
+          <a href="commercial-irrigation-design.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Commercial Irrigation Design</a>
+          <a href="irrigation-upgrades.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Irrigation Upgrades</a>
+          <a href="bulk-water-supply.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Bulk Water Supply</a>
+          <a href="system-assessments.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">System Assessments</a>
           <div style="border-top:1px solid #E7EEEC; margin:8px 16px 0; padding-top:10px;">
-            <div class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0;">All solutions →</div>
+            <a href="solutions.html" class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0; display:block; text-decoration:none;">All solutions →</a>
           </div>
         </div></div>
       </div>
@@ -143,9 +143,9 @@
         <a href="insights.html" style="cursor:pointer; color:#fff; padding-bottom:4px; border-bottom:2px solid #F4A258; color:inherit; text-decoration:none;">Insights</a>
         <div class="nav-drop-panel"><div style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; box-shadow:0 24px 60px rgba(4,40,46,0.22); padding:14px; display:flex; flex-direction:column; gap:2px;">
           <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B96A22; font-weight:600; padding:6px 16px 10px;">Tools</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Services Cost Estimator</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Pipe Lifecycle Cost Analysis</div>
-          <div class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer;">Irrigation ROI Calculator</div>
+          <a href="insights.html#services-cost-estimator" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Services Cost Estimator</a>
+          <a href="insights.html#pipe-lifecycle-cost-analysis" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Pipe Lifecycle Cost Analysis</a>
+          <a href="insights.html#irrigation-roi-calculator" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Irrigation ROI Calculator</a>
           <div style="border-top:1px solid #E7EEEC; margin:8px 16px 0; padding-top:10px;">
             <a href="insights.html#blog" class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0; display:block; text-decoration:none;">Blog →</a>
           </div>

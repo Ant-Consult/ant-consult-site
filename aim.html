@@ -36,7 +36,17 @@
   .newsletter-btn { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
   .newsletter-btn:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
 
-  @media (max-width: 768px) {
+    .nav-link { color:rgba(255,255,255,0.92); transition:color 150ms ease, border-color 150ms ease; border-bottom:2px solid transparent; padding-bottom:4px; }
+  .nav-link:hover { color:#fff; border-bottom-color:rgba(244,162,88,0.55); }
+  .nav-drop { position:relative; display:flex; align-items:center; }
+  .nav-drop-panel { position:absolute; top:100%; left:50%; padding-top:18px; min-width:288px; z-index:20; opacity:0; visibility:hidden; transform:translate(-50%, 8px); transition:opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; will-change:opacity, transform; }
+  .nav-drop:hover .nav-drop-panel { opacity:1; visibility:visible; transform:translate(-50%, 0); }
+  .nav-drop-item { transition:background 140ms ease; }
+  .nav-drop-item:hover { background:#F1F6F4; }
+  .nav-drop-all { color:#05515B; transition:color 140ms ease; }
+  .nav-drop-all:hover { color:#B96A22; }
+
+@media (max-width: 768px) {
     .section-pad-lg { padding:36px 22px !important; }
     .intro-heading-grid { gap:16px !important; margin-bottom:24px !important; }
     .intro-eyebrow { margin-bottom:8px !important; }
@@ -97,14 +107,39 @@
     <a href="index.html" style="display:block;"><img src="assets/logo.png" alt="Ant Consult" style="height:52px; width:auto; display:block;" loading="lazy" decoding="async"></a>
     <input type="checkbox" id="mobile-nav-toggle" class="mobile-nav-toggle"><label for="mobile-nav-toggle" class="hamburger-btn" aria-label="Open menu"><span></span><span></span><span></span></label>
     <div class="nav-links-row" style="display:flex; align-items:center; gap:30px; font-size:15px; color:rgba(255,255,255,0.92);">
-      <a href="about.html" style="cursor:pointer; color:inherit; text-decoration:none;">About</a>
+      <a href="about.html" class="nav-link" style="cursor:pointer; text-decoration:none;">About</a>
       <a href="aim.html" style="cursor:pointer; color:#fff; padding-bottom:4px; border-bottom:2px solid #F4A258; color:inherit; text-decoration:none;">AIM</a>
-      <a href="solutions.html" style="cursor:pointer; color:inherit; text-decoration:none;">Solutions</a>
-      <a href="projects.html" style="cursor:pointer; color:inherit; text-decoration:none;">Case Studies</a>
-      <a href="insights.html" style="cursor:pointer; color:inherit; text-decoration:none;">Insights</a>
-      <a href="contact.html" style="cursor:pointer; color:inherit; text-decoration:none;">Contact</a>
+      <div class="nav-drop">
+        <a href="solutions.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Solutions</a>
+        <div class="nav-drop-panel"><div style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; box-shadow:0 24px 60px rgba(4,40,46,0.22); padding:14px; display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B96A22; font-weight:600; padding:6px 16px 10px;">Services</div>
+          <a href="feasibility-studies.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Feasibility Studies</a>
+          <a href="masterplans.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Masterplans</a>
+          <a href="commercial-irrigation-design.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Commercial Irrigation Design</a>
+          <a href="irrigation-upgrades.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Irrigation Upgrades</a>
+          <a href="bulk-water-supply.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Bulk Water Supply</a>
+          <a href="system-assessments.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">System Assessments</a>
+          <div style="border-top:1px solid #E7EEEC; margin:8px 16px 0; padding-top:10px;">
+            <a href="solutions.html" class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0; display:block; text-decoration:none;">All solutions &rarr;</a>
+          </div>
+        </div></div>
+      </div>
+      <a href="projects.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Case Studies</a>
+      <div class="nav-drop">
+        <a href="insights.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Insights</a>
+        <div class="nav-drop-panel"><div style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; box-shadow:0 24px 60px rgba(4,40,46,0.22); padding:14px; display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B96A22; font-weight:600; padding:6px 16px 10px;">Tools</div>
+          <a href="insights.html#services-cost-estimator" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Services Cost Estimator</a>
+          <a href="insights.html#pipe-lifecycle-cost-analysis" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Pipe Lifecycle Cost Analysis</a>
+          <a href="insights.html#irrigation-roi-calculator" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Irrigation ROI Calculator</a>
+          <div style="border-top:1px solid #E7EEEC; margin:8px 16px 0; padding-top:10px;">
+            <a href="insights.html#blog" class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0; display:block; text-decoration:none;">Blog &rarr;</a>
+          </div>
+        </div></div>
+      </div>
+      <a href="contact.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Contact</a>
       <span style="width:1px; height:18px; background:rgba(255,255,255,0.22);"></span>
-        <span class="roi-btn" style="font-weight:600; padding:10px 20px; border-radius:999px; font-size:14px; cursor:pointer; margin-left:4px;">Calculate your ROI</span>
+      <span class="roi-btn" style="font-weight:600; padding:10px 20px; border-radius:999px; font-size:14px; cursor:pointer; margin-left:4px;">Calculate your ROI</span>
     </div>
   </div>
 
