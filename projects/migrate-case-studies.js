@@ -189,7 +189,7 @@ const META_ROW_BLOCK = `    <div style="display:flex; align-items:center; gap:32
     </div>`;
 
 const HERO_IMAGE_BLOCK = `  <!-- HERO IMAGE (field: Hero Image) -->
-  <div class="field-slot" style="height:460px; margin:0 72px; display:flex; align-items:center; justify-content:center; text-align:center;">
+  <div class="field-slot" style="height:460px; margin:0 5vw; display:flex; align-items:center; justify-content:center; text-align:center;">
     <div>
       <div class="field-tag">Case study field</div>
       <div style="font-family:'Ubuntu',sans-serif; font-size:20px; font-weight:500; color:#05515B; margin-top:14px;">[[ CASE STUDY: HERO IMAGE ]]</div>
@@ -200,7 +200,7 @@ const HERO_IMAGE_BLOCK = `  <!-- HERO IMAGE (field: Hero Image) -->
 const SUMMARY_METRICS_BLOCK_RE = /\n  <!-- SUMMARY METRICS -->[\s\S]*?\n  <\/div>\n\n(?=  <!-- THE CHALLENGE -->)/;
 
 const CHALLENGE_BLOCK = `  <!-- THE CHALLENGE -->
-  <div style="display:flex; justify-content:center; padding:64px 72px 0;">
+  <div style="display:flex; justify-content:center; padding:64px 5vw 0;">
     <div style="max-width:760px; width:100%;">
       <h2 style="font-family:'Ubuntu',sans-serif; font-size:34px; line-height:1.16; font-weight:500; letter-spacing:-0.015em; color:#12312F; margin:0 0 24px;">The Challenge</h2>
       <div class="field-slot" style="padding:32px;">
@@ -211,7 +211,7 @@ const CHALLENGE_BLOCK = `  <!-- THE CHALLENGE -->
   </div>`;
 
 const STRATEGY_BLOCK = `  <!-- THE STRATEGY -->
-  <div style="display:flex; justify-content:center; padding:56px 72px 0;">
+  <div style="display:flex; justify-content:center; padding:56px 5vw 0;">
     <div style="max-width:760px; width:100%;">
       <h2 style="font-family:'Ubuntu',sans-serif; font-size:34px; line-height:1.16; font-weight:500; letter-spacing:-0.015em; color:#12312F; margin:0 0 24px;">The Strategy</h2>
       <div class="field-slot" style="padding:32px;">
@@ -222,7 +222,7 @@ const STRATEGY_BLOCK = `  <!-- THE STRATEGY -->
   </div>`;
 
 const EXECUTION_BLOCK = `  <!-- THE EXECUTION -->
-  <div style="display:flex; justify-content:center; padding:56px 72px 0;">
+  <div style="display:flex; justify-content:center; padding:56px 5vw 0;">
     <div style="max-width:760px; width:100%;">
       <h2 style="font-family:'Ubuntu',sans-serif; font-size:34px; line-height:1.16; font-weight:500; letter-spacing:-0.015em; color:#12312F; margin:0 0 24px;">The Execution</h2>
       <div class="field-slot" style="height:320px; margin-bottom:24px; display:flex; align-items:center; justify-content:center; text-align:center;">
@@ -239,7 +239,7 @@ const EXECUTION_BLOCK = `  <!-- THE EXECUTION -->
   </div>`;
 
 const RESULTS_AND_QUOTE_BLOCK = `  <!-- RESULTS -->
-  <div style="display:flex; justify-content:center; padding:56px 72px 64px;">
+  <div style="display:flex; justify-content:center; padding:56px 5vw 64px;">
     <div style="max-width:760px; width:100%;">
       <h2 style="font-family:'Ubuntu',sans-serif; font-size:34px; line-height:1.16; font-weight:500; letter-spacing:-0.015em; color:#12312F; margin:0 0 24px;">Results</h2>
       <div class="field-slot" style="padding:32px; margin-bottom:24px;">
@@ -266,7 +266,7 @@ if (!SUMMARY_METRICS_BLOCK_RE.test(template)) throw new Error('Summary metrics b
 function sectionOrFallback(heading, html, fallbackNote) {
   if (!html || !html.trim()) return '';
   return `  <!-- ${heading.toUpperCase()} -->
-  <div style="display:flex; justify-content:center; padding:56px 72px 0;">
+  <div style="display:flex; justify-content:center; padding:56px 5vw 0;">
     <div style="max-width:760px; width:100%;">
       <h2 style="font-family:'Ubuntu',sans-serif; font-size:34px; line-height:1.16; font-weight:500; letter-spacing:-0.015em; color:#12312F; margin:0 0 24px;">${heading}</h2>
       <div class="case-body">${html}</div>
@@ -312,8 +312,8 @@ for (const r of records) {
   page = page.replace(META_ROW_BLOCK, metaRowReplacement);
 
   const heroImageReplacement = imageUrl
-    ? `  <!-- HERO IMAGE -->\n  <div role="img" aria-label="${escapeAttr(title)}" style="height:460px; margin:0 72px; border-radius:18px; background:#E3EFEC url('${escapeAttr(imageUrl)}') center/cover no-repeat;"></div>`
-    : `  <!-- HERO IMAGE (none provided in source data) -->\n  <div style="height:460px; margin:0 72px; border-radius:18px; background:#E3EFEC;"></div>`;
+    ? `  <!-- HERO IMAGE -->\n  <div role="img" aria-label="${escapeAttr(title)}" style="height:460px; margin:0 5vw; border-radius:18px; background:#E3EFEC url('${escapeAttr(imageUrl)}') center/cover no-repeat;"></div>`
+    : `  <!-- HERO IMAGE (none provided in source data) -->\n  <div style="height:460px; margin:0 5vw; border-radius:18px; background:#E3EFEC;"></div>`;
   page = page.replace(HERO_IMAGE_BLOCK, heroImageReplacement);
 
   // No structured metrics data exists in the source -- drop the section rather than show empty/fake stats.

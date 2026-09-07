@@ -127,7 +127,7 @@ const POST_BODY_CSS = `
 template = template.replace('</style>', POST_BODY_CSS);
 
 const FEATURED_IMAGE_BLOCK = `  <!-- FEATURED IMAGE (Webflow CMS field: Featured Image) -->
-  <div class="cms-slot" style="height:440px; margin:0 72px; display:flex; align-items:center; justify-content:center; text-align:center;">
+  <div class="cms-slot" style="height:440px; margin:0 5vw; display:flex; align-items:center; justify-content:center; text-align:center;">
     <div>
       <div class="cms-tag">Webflow CMS field</div>
       <div style="font-family:'Ubuntu',sans-serif; font-size:20px; font-weight:500; color:#05515B; margin-top:14px;">[[ WEBFLOW CMS: FEATURED IMAGE ]]</div>
@@ -193,8 +193,8 @@ for (const r of records) {
   page = replaceAll(page, '{{ webflow.read_time }}', String(readTime));
 
   const featuredImageReplacement = imageUrl
-    ? `  <!-- FEATURED IMAGE -->\n  <div role="img" aria-label="${escapeAttr(title)}" style="height:440px; margin:0 72px; border-radius:18px; background:#E3EFEC url('${escapeAttr(imageUrl)}') center/cover no-repeat;"></div>`
-    : `  <!-- FEATURED IMAGE (none provided in CMS export) -->\n  <div style="height:440px; margin:0 72px; border-radius:18px; background:#E3EFEC;"></div>`;
+    ? `  <!-- FEATURED IMAGE -->\n  <div role="img" aria-label="${escapeAttr(title)}" style="height:440px; margin:0 5vw; border-radius:18px; background:#E3EFEC url('${escapeAttr(imageUrl)}') center/cover no-repeat;"></div>`
+    : `  <!-- FEATURED IMAGE (none provided in CMS export) -->\n  <div style="height:440px; margin:0 5vw; border-radius:18px; background:#E3EFEC;"></div>`;
   page = page.replace(FEATURED_IMAGE_BLOCK, featuredImageReplacement);
 
   const postBodyReplacement = `      <!-- POST BODY -->\n      <div class="post-body">${bodyHtml}</div>`;
