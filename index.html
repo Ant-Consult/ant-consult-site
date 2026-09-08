@@ -38,6 +38,9 @@
 
   .desktop-only-view { display:block; }
   .mobile-only-view { display:none; }
+  @media (max-width:1024px) {
+    .footer-cols-grid { display:flex !important; flex-direction:column !important; align-items:stretch !important; }
+  }
   @media (max-width:768px) {
     .desktop-only-view { display:none; }
     .mobile-only-view { display:block; }
@@ -106,7 +109,7 @@
       </div>
     </div>
 
-    <div style="position:relative; padding:104px 5vw 96px; max-width:760px;">
+    <div style="position:relative; padding:104px 5vw 96px; max-width:clamp(760px, 53vw, 1040px);">
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:26px;">
         <span style="width:22px; height:1px; background:#F4A258;"></span>
         <span style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#F8C08C; font-weight:600;">Large-scale agriculture, Africa and the Middle East</span>
@@ -467,7 +470,7 @@
 
   <!-- FOOTER -->
   <div style="background:#05515B; color:#fff; padding:72px 5vw 32px;">
-    <div class="footer-cols-grid" style="display:grid; grid-template-columns:1.4fr 1fr 1.3fr 1.2fr 1.2fr; gap:40px; padding-bottom:56px;">
+    <div class="footer-cols-grid" style="display:grid; grid-template-columns:1.4fr 1fr 1.3fr 1.2fr minmax(270px,1.2fr); gap:40px; padding-bottom:56px;">
       <div>
         <div style="display:flex; align-items:center; gap:8px; font-family:'Ubuntu',sans-serif; margin-bottom:24px;">
           <a href="index.html" style="display:block;"><img src="assets/logo.png" alt="Ant Consult" style="height:34px; width:auto; display:block;" loading="lazy" decoding="async"></a>
@@ -495,13 +498,13 @@
           <a href="tools/services-cost-estimator.html" style="cursor:pointer; color:inherit; text-decoration:none;">Services Cost Estimator</a><a href="tools/pipeline-lifecycle-cost-analyser.html" style="cursor:pointer; color:inherit; text-decoration:none;">Pipe Lifecycle Cost Analysis</a><a href="tools/irrigation-roi-calculator.html" style="cursor:pointer; color:inherit; text-decoration:none;">Irrigation ROI Calculator</a><a href="insights.html#blog" style="cursor:pointer; color:inherit; text-decoration:none;">Blog</a>
         </div>
       </div>
-      <div>
+      <div style="min-width:0;">
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:26px;">
           <span style="font-size:14px; font-weight:600;">Follow us</span>
           <a href="https://www.linkedin.com/company/antconsult" target="_blank" rel="noopener" aria-label="Ant Consult on LinkedIn" style="width:30px; height:30px; border:1px solid rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; cursor:pointer; color:inherit; text-decoration:none;">in</a>
         </div>
         <form class="newsletter-form" style="display:flex; align-items:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:999px; padding:9px 9px 9px 18px; gap:10px;">
-          <input type="email" name="email" class="newsletter-input" placeholder="Enter email to subscribe" required style="flex:1; min-width:0; background:none; border:none; outline:none; font-family:inherit; font-size:13px; color:#fff;">
+          <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required style="flex:1; min-width:0; background:none; border:none; outline:none; font-family:inherit; font-size:13px; color:#fff;">
           <button type="submit" class="newsletter-btn" style="white-space:nowrap; flex:none; width:auto; border-radius:999px; border:none; font-size:13px; font-weight:600; font-family:inherit; line-height:1; padding:12px 24px; cursor:pointer;">Subscribe</button>
         </form>
       </div>
@@ -876,7 +879,7 @@
     </div>
     <div style="margin-top:32px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.16);">
       <form class="newsletter-form" style="display:flex; align-items:center; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.22); border-radius:999px; padding:11px 11px 11px 18px; gap:10px;">
-        <input type="email" name="email" class="newsletter-input" placeholder="Enter email to subscribe" required style="flex:1; min-width:0; background:none; border:none; outline:none; font-family:inherit; font-size:13px; color:#fff;">
+        <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required style="flex:1; min-width:0; background:none; border:none; outline:none; font-family:inherit; font-size:13px; color:#fff;">
         <button type="submit" class="newsletter-btn" style="white-space:nowrap; flex:none; width:auto; border-radius:999px; border:none; font-size:13px; font-weight:600; font-family:inherit; line-height:1; padding:12px 24px; cursor:pointer;">Subscribe</button>
       </form>
       <div style="display:flex; align-items:center; gap:14px; margin-top:26px; font-size:13px;">
