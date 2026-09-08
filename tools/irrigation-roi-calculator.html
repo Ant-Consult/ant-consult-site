@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Irrigation System ROI Calculator | Ant Consult</title>
+<meta name="description" content="Calculate the return on investment associated with a new or upgraded irrigation system.">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; max-width:100vw; width:100%; overflow-x:hidden; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { background:#E2E7E6; font-family:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif; }
+  a { color:#F4A258; text-decoration:none; }
+  a:hover { color:#05515B; }
+  ::selection { background:#F4A258; color:#fff; }
+  img { max-width:100%; }
+  .mobile-nav-toggle { position:absolute; opacity:0; pointer-events:none; }
+  .hamburger-btn { display:none; flex-direction:column; justify-content:center; gap:5px; width:26px; height:20px; cursor:pointer; flex:none; }
+  .hamburger-btn span { display:block; height:2px; background:#fff; border-radius:1px; }
+
+  .hover-fade { transition:color 140ms ease; }
+  .hover-fade:hover { color:#F8C08C !important; }
+
+  .cta-btn-orange { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
+  .cta-btn-orange:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
+  .cta-btn-teal { background:#05515B; color:#fff; transition:all 0.3s ease; }
+  .cta-btn-teal:hover { background:transparent; color:#05515B; box-shadow:inset 0 0 0 1px #05515B; }
+  .newsletter-btn { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
+  .newsletter-btn:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
+  .roi-btn { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
+  .roi-btn:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
+
+  .nav-link { color:rgba(255,255,255,0.92); transition:color 150ms ease, border-color 150ms ease; border-bottom:2px solid transparent; padding-bottom:4px; }
+  .nav-link:hover { color:#fff; border-bottom-color:rgba(244,162,88,0.55); }
+  .nav-drop { position:relative; display:flex; align-items:center; }
+  .nav-drop-panel { position:absolute; top:100%; left:50%; padding-top:18px; min-width:288px; z-index:20; opacity:0; visibility:hidden; transform:translate(-50%, 8px); transition:opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; will-change:opacity, transform; }
+  .nav-drop:hover .nav-drop-panel { opacity:1; visibility:visible; transform:translate(-50%, 0); }
+  .nav-drop-item { transition:background 140ms ease; }
+  .nav-drop-item:hover { background:#F1F6F4; }
+  .nav-drop-all { color:#05515B; transition:color 140ms ease; }
+  .nav-drop-all:hover { color:#B96A22; }
+
+  /* ---- calculator UI ---- */
+  .field-label { font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:600; color:#5E6E6A; margin-bottom:8px; display:block; }
+  .field-input, .field-select { width:100%; background:#FBFCFC; border:1px solid #DFE9E6; border-radius:10px; padding:12px 14px; font-size:15px; font-family:inherit; color:#12312F; }
+  .field-input:focus, .field-select:focus { outline:none; border-color:#05515B; }
+
+  .stat-tile { background:#F4F7F6; border:1px solid #DFE9E6; border-radius:14px; padding:22px 20px; }
+  .stat-label { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; color:#5E6E6A; margin-bottom:10px; }
+  .stat-value { font-family:'Ubuntu',sans-serif; font-size:26px; font-weight:500; color:#05515B; margin-bottom:4px; }
+  .stat-sub { font-size:12px; color:#8A9793; }
+
+  .gate-input { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:12px; padding:15px 18px; font-size:15px; color:#fff; font-family:inherit; width:100%; }
+  .gate-input::placeholder { color:rgba(255,255,255,0.55); }
+
+  .roi-table { width:100%; border-collapse:collapse; }
+  .roi-table th, .roi-table td { padding:12px 14px; text-align:right; border-bottom:1px solid #E7EEEC; font-size:14px; white-space:nowrap; }
+  .roi-table th:first-child, .roi-table td:first-child { text-align:left; color:#5E6E6A; white-space:normal; }
+  .roi-table th { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#5E6E6A; font-weight:600; }
+  .roi-table .total-row td { font-weight:700; color:#05515B; border-top:2px solid #05515B; border-bottom:none; }
+
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:#12312F; color:#fff; padding:14px 22px; border-radius:10px; font-size:14px; opacity:0; pointer-events:none; transition:opacity 200ms ease, transform 200ms ease; z-index:999; max-width:88vw; text-align:center; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  [data-panel] { display:none; }
+  [data-panel].show { display:block; }
+
+@media (max-width: 768px) {
+    .section-pad-lg { padding:36px 22px !important; }
+    h1 { font-size:32px !important; }
+    h2 { font-size:26px !important; line-height:1.3 !important; }
+    .hamburger-btn { display:flex !important; }
+    .nav-links-row {
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column !important;
+      align-items:stretch !important;
+      gap:0 !important;
+      background:#05515B;
+      padding:10px 22px 26px !important;
+      border-top:1px solid rgba(255,255,255,0.14);
+      box-shadow:0 20px 40px rgba(4,40,46,0.28);
+      z-index:60;
+      opacity:0 !important;
+      visibility:hidden !important;
+      transform:translateY(-8px) !important;
+      transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+    }
+    .mobile-nav-toggle:checked ~ .nav-links-row {
+      opacity:1 !important;
+      visibility:visible !important;
+      transform:translateY(0) !important;
+    }
+    .nav-links-row > a, .nav-links-row .nav-link {
+      display:block !important;
+      width:100% !important;
+      padding:14px 6px !important;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+    }
+    .nav-links-row .nav-drop { width:100%; }
+    .nav-links-row span[style*="width:1px"] { display:none !important; }
+    .nav-links-row .roi-btn { display:none !important; }
+    .two-col-grid, .three-col-grid, .four-col-grid, .five-col-grid, .footer-cols-grid { display:flex !important; flex-direction:column !important; align-items:stretch !important; }
+    .footer-legal-bar { flex-direction:column !important; align-items:center !important; text-align:center !important; gap:12px !important; font-size:12px !important; }
+    .footer-legal-left { flex-direction:column !important; gap:8px !important; }
+    .footer-legal-left span[style*="width:1px"] { display:none !important; }
+    .roi-table { display:block; overflow-x:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div style="width:100%; background:#FFFFFF; overflow:hidden;">
+
+  <!-- NAV -->
+  <div class="section-pad-lg" style="position:relative; z-index:100; background:#05515B; display:flex; align-items:center; justify-content:space-between; padding:26px 5vw;">
+    <a href="../index.html" style="display:block;"><img src="../assets/logo.png" alt="Ant Consult" style="height:52px; width:auto; display:block;" loading="eager" decoding="async"></a>
+    <input type="checkbox" id="mobile-nav-toggle" class="mobile-nav-toggle"><label for="mobile-nav-toggle" class="hamburger-btn" aria-label="Open menu"><span></span><span></span><span></span></label>
+    <div class="nav-links-row" style="display:flex; align-items:center; gap:30px; font-size:15px; color:rgba(255,255,255,0.92);">
+      <a href="../about.html" class="nav-link" style="cursor:pointer; text-decoration:none;">About</a>
+      <a href="../aim.html" class="nav-link" style="cursor:pointer; text-decoration:none;">AIM</a>
+      <a href="../solutions.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Solutions</a>
+      <a href="../projects.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Case Studies</a>
+      <div class="nav-drop">
+        <a href="../insights.html" style="cursor:pointer; color:#fff; padding-bottom:4px; border-bottom:2px solid #F4A258; color:inherit; text-decoration:none;">Insights</a>
+        <div class="nav-drop-panel"><div style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; box-shadow:0 24px 60px rgba(4,40,46,0.22); padding:14px; display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B96A22; font-weight:600; padding:6px 16px 10px;">Tools</div>
+          <a href="../insights.html#services-cost-estimator" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Services Cost Estimator</a>
+          <a href="pipeline-lifecycle-cost-analyser.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Pipe Lifecycle Cost Analysis</a>
+          <a href="irrigation-roi-calculator.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Irrigation ROI Calculator</a>
+          <div style="border-top:1px solid #E7EEEC; margin:8px 16px 0; padding-top:10px;">
+            <a href="../insights.html#blog" class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0; display:block; text-decoration:none;">Blog &rarr;</a>
+          </div>
+        </div></div>
+      </div>
+      <a href="../contact.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Contact</a>
+      <span style="width:1px; height:18px; background:rgba(255,255,255,0.22);"></span>
+      <a href="pipeline-lifecycle-cost-analyser.html" class="roi-btn" style="font-weight:600; padding:10px 20px; border-radius:999px; font-size:14px; cursor:pointer; margin-left:4px; text-decoration:none; display:inline-block;">Pipe Lifecycle Tool</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="section-pad-lg" style="background:#05515B; padding:72px 5vw 64px; text-align:center; color:#fff;">
+    <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#F8C08C; font-weight:600; margin-bottom:18px;">Tools &middot; Irrigation ROI</div>
+    <h1 style="font-family:'Ubuntu',sans-serif; font-size:47px; line-height:1.12; font-weight:500; letter-spacing:-0.015em; margin:0 0 20px; text-wrap:balance;">Irrigation System ROI Calculator</h1>
+    <p style="font-size:17px; line-height:1.6; color:rgba(255,255,255,0.85); margin:0 auto; max-width:640px; text-wrap:pretty;">Calculate the return on investment associated with a new or upgraded irrigation system.</p>
+  </div>
+
+  <!-- PROJECT INPUTS -->
+  <div class="section-pad-lg" style="background:#F4F7F6; padding:56px 5vw;">
+    <div style="background:#fff; border:1px solid #DFE9E6; border-radius:18px; padding:36px 5vw 32px; max-width:1120px; margin:0 auto;">
+      <div style="font-family:'Ubuntu',sans-serif; font-size:22px; font-weight:500; color:#12312F; margin-bottom:6px;">Project Inputs</div>
+      <p style="font-size:14px; color:#5E6E6A; margin:0 0 28px; max-width:760px;">Capital cost is derived from a rate per hectare for the selected system type, and a management factor adjusts the achievable yield. Power and maintenance costs are expressed as net present values over the analysis period. Defaults reflect typical Southern African conditions.</p>
+
+      <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#B96A22; font-weight:700; margin-bottom:14px;">System &amp; Agronomy</div>
+      <div class="three-col-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:24px;">
+        <div>
+          <span class="field-label">Currency</span>
+          <select id="currency" class="field-select">
+            <option value="ZAR" selected>ZAR (South African Rand)</option>
+            <option value="USD">USD (US Dollar)</option>
+          </select>
+        </div>
+        <div>
+          <span class="field-label">ZAR &rarr; USD Rate</span>
+          <input type="number" id="usd-rate" class="field-input" min="1" step="0.01" value="18.50">
+        </div>
+        <div>
+          <span class="field-label">Irrigation System Type</span>
+          <select id="system-type" class="field-select">
+            <option value="Drip" selected>Drip (Surface)</option>
+            <option value="Drip Subsurface">Drip (Subsurface)</option>
+            <option value="Micro Sprinkler">Micro Sprinkler</option>
+            <option value="Pivot">Centre Pivot</option>
+            <option value="Linear Move">Linear Move</option>
+            <option value="Sprinkler">Hand-moved Sprinkler</option>
+          </select>
+        </div>
+        <div>
+          <span class="field-label">Crop Type</span>
+          <input type="text" id="crop" class="field-input" placeholder="e.g. Avocado, Maize, Sugarcane" value="Sugar">
+        </div>
+        <div>
+          <span class="field-label">Irrigated Area (ha)</span>
+          <input type="number" id="area" class="field-input" min="0" step="1" value="100">
+        </div>
+        <div>
+          <span class="field-label">Annual Irrigation Demand (mm)</span>
+          <input type="number" id="demand" class="field-input" min="0" step="10" value="1200">
+        </div>
+        <div>
+          <span class="field-label">Current Yield (ton/ha)</span>
+          <input type="number" id="cur-yield" class="field-input" min="0" step="0.5" value="100">
+        </div>
+        <div>
+          <span class="field-label">Expected Yield Increment (ton/ha)</span>
+          <input type="number" id="yield-inc" class="field-input" min="0" step="0.5" value="6">
+        </div>
+      </div>
+
+      <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#B96A22; font-weight:700; margin-bottom:14px;">Financial Parameters</div>
+      <div class="four-col-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+        <div>
+          <span class="field-label">Market Price (per ton)</span>
+          <input type="number" id="price" class="field-input" min="0" step="100" value="7000">
+        </div>
+        <div>
+          <span class="field-label">Avg. Cost of Power (per kWh)</span>
+          <input type="number" id="power-cost" class="field-input" min="0" step="0.01" value="2.20">
+        </div>
+        <div>
+          <span class="field-label">Power Cost Escalation (%/yr)</span>
+          <input type="number" id="power-escalation" class="field-input" min="0" step="0.1" value="12">
+        </div>
+        <div>
+          <span class="field-label">General Inflation Rate (%/yr)</span>
+          <input type="number" id="inflation" class="field-input" min="0" step="0.1" value="6">
+        </div>
+        <div>
+          <span class="field-label">Financial Discount Rate (%/yr)</span>
+          <input type="number" id="discount-rate" class="field-input" min="0" step="0.1" value="9">
+        </div>
+        <div>
+          <span class="field-label">Loan Interest Rate (%)</span>
+          <input type="number" id="interest" class="field-input" min="0" step="0.1" value="11">
+        </div>
+        <div>
+          <span class="field-label">Loan Term (years)</span>
+          <input type="number" id="term" class="field-input" min="1" step="1" value="10">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE RESULTS -->
+  <div id="free-results" data-panel style="background:#fff; padding:0 5vw 56px;">
+    <div style="max-width:1120px; margin:0 auto;">
+      <div style="font-family:'Ubuntu',sans-serif; font-size:26px; font-weight:500; color:#12312F; margin-bottom:6px;">Lifecycle Cost Optimised System</div>
+      <p style="font-size:15px; color:#5E6E6A; margin:0 0 24px;">Headline economics of a professionally engineered system, sized for lowest lifecycle cost.</p>
+      <div class="five-col-grid" style="display:grid; grid-template-columns:repeat(5,1fr); gap:16px;">
+        <div class="stat-tile"><div class="stat-label">Annual Income Uplift</div><div class="stat-value" id="t-income">&mdash;</div><div class="stat-sub">additional revenue / yr</div></div>
+        <div class="stat-tile"><div class="stat-label">Capital Cost</div><div class="stat-value" id="t-capital">&mdash;</div><div class="stat-sub">CAPEX to install</div></div>
+        <div class="stat-tile"><div class="stat-label">Approximate Design Cost</div><div class="stat-value" id="t-design">&mdash;</div><div class="stat-sub">5% of capital cost</div></div>
+        <div class="stat-tile"><div class="stat-label">Power Cost / Yr</div><div class="stat-value" id="t-power">&mdash;</div><div class="stat-sub">pumping energy (year 1)</div></div>
+        <div class="stat-tile"><div class="stat-label">Payback Period</div><div class="stat-value" id="t-payback">&mdash;</div><div class="stat-sub">net cashflow &ge; 0</div></div>
+      </div>
+      <p style="font-size:13px; color:#8A9793; margin:16px 0 0;">Power consumed assumes typical efficiencies of 75% (Pump), 95% (Variable Speed Drive) and 75% (Motor). Repairs &amp; maintenance is estimated at 2% of capital cost per year. Design cost is an approximate allowance only (actual professional fees are confirmed in a formal proposal) and is included in the total CAPEX carried into the ROI calculation.</p>
+    </div>
+  </div>
+
+  <!-- GATE -->
+  <div id="gate-section" data-panel style="background:#05515B; color:#fff; text-align:center; padding:64px 5vw;">
+    <div style="max-width:560px; margin:0 auto;">
+      <div style="font-size:38px; margin-bottom:16px;">&#128274;</div>
+      <div style="font-family:'Ubuntu',sans-serif; font-size:28px; font-weight:500; margin-bottom:14px;">Unlock the Full ROI Analysis</div>
+      <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.82); margin:0 0 28px;">See the year-by-year return, 5/10/20-year ROI, and how a lifecycle-cost optimised system compares to a non-optimised scenario over the project's design life.</p>
+      <form id="gate-form" style="display:flex; flex-direction:column; gap:14px; text-align:left;">
+        <div>
+          <span class="field-label" style="color:rgba(255,255,255,0.7);">Full Name</span>
+          <input type="text" id="gate-name" class="gate-input" required placeholder="Your name">
+        </div>
+        <div>
+          <span class="field-label" style="color:rgba(255,255,255,0.7);">Email Address</span>
+          <input type="email" id="gate-email" class="gate-input" required placeholder="you@company.com">
+        </div>
+        <div>
+          <span class="field-label" style="color:rgba(255,255,255,0.7);">Nearest Town</span>
+          <input type="text" id="gate-town" class="gate-input" required placeholder="e.g. Johannesburg">
+        </div>
+        <div id="gate-error" style="display:none; color:#F8C08C; font-size:13px;"></div>
+        <button type="submit" id="gate-submit" class="cta-btn-orange" style="border:none; border-radius:999px; padding:16px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; margin-top:6px;">Unlock Full Report &nbsp;&rarr;</button>
+      </form>
+      <p style="font-size:12px; color:rgba(255,255,255,0.55); margin:16px 0 0;">No spam &mdash; occasional irrigation engineering insights only. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <!-- LOCKED (full) RESULTS -->
+  <div id="locked-results" data-panel style="background:#fff; padding:56px 5vw;">
+    <div style="max-width:1120px; margin:0 auto;">
+      <div style="font-family:'Ubuntu',sans-serif; font-size:26px; font-weight:500; color:#12312F; margin-bottom:6px;">Full ROI Analysis</div>
+      <p style="font-size:15px; color:#5E6E6A; margin:0 0 28px;">Optimised system versus a non-optimised scenario (20% less capital, 50% higher power &amp; maintenance cost, 5% less yield uplift), discounted over the project's design life.</p>
+
+      <div class="three-col-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px;">
+        <div class="stat-tile"><div class="stat-label">5-Year ROI</div><div class="stat-value" id="t-roi5">&mdash;</div></div>
+        <div class="stat-tile"><div class="stat-label">10-Year ROI</div><div class="stat-value" id="t-roi10">&mdash;</div></div>
+        <div class="stat-tile"><div class="stat-label">20-Year ROI</div><div class="stat-value" id="t-roi20">&mdash;</div></div>
+      </div>
+      <p style="font-size:13px; color:#8A9793; margin:0 0 28px;">Annual pumping energy at year 1: <strong id="t-kwh" style="color:#05515B;">&mdash;</strong> kWh.</p>
+
+      <div style="overflow-x:auto; margin-bottom:32px;">
+        <table class="roi-table" id="roi-table"></table>
+      </div>
+      <div id="roi-chart" style="width:100%; height:320px;"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="section-pad-lg" style="background:#F4F7F6; padding:72px 5vw; text-align:center;">
+    <div style="font-family:'Ubuntu',sans-serif; font-size:30px; font-weight:500; color:#12312F; margin-bottom:16px; text-wrap:balance;">Want the design that actually hits these numbers?</div>
+    <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0 auto 28px; max-width:560px;">This tool models a well-designed system in isolation. Whether your project gets there depends on the engineering behind it.</p>
+    <a href="../contact.html" class="cta-btn-teal" style="padding:16px 34px; border-radius:999px; font-size:16px; font-weight:500; cursor:pointer; text-decoration:none; display:inline-block;">Book a discovery call</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="section-pad-lg" style="background:#05515B; color:#fff; padding:72px 5vw 32px;">
+    <div class="footer-cols-grid" style="display:grid; grid-template-columns:1.4fr 1fr 1.3fr 1.2fr 1.2fr; gap:40px; padding-bottom:56px;">
+      <div>
+        <a href="../index.html" style="display:block;"><img src="../assets/logo.png" alt="Ant Consult" style="height:34px; width:auto; display:block; margin-bottom:24px;" loading="lazy" decoding="async"></a>
+        <div style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.75);">10 Hilton Avenue, Hilton<br>Pietermaritzburg, 3201</div>
+        <div style="font-size:14px; line-height:1.8; color:#F8C08C; margin-top:14px;">info@antconsult.co.za<br>+27 76 375 5043</div>
+        <div style="font-size:14px; font-weight:600; margin-top:22px;">Office Hours</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:4px;">Monday &ndash; Friday 08 AM &ndash; 04 PM</div>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; margin-bottom:18px;">Quick Links</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:14px; color:rgba(255,255,255,0.75);">
+          <a href="../about.html" style="cursor:pointer; color:inherit; text-decoration:none;">About</a><a href="../aim.html" style="cursor:pointer; color:inherit; text-decoration:none;">AIM</a><a href="../solutions.html" style="cursor:pointer; color:inherit; text-decoration:none;">Solutions</a><a href="../projects.html" style="cursor:pointer; color:inherit; text-decoration:none;">Case Studies</a><a href="../insights.html" style="cursor:pointer; color:inherit; text-decoration:none;">Insights</a><a href="../contact.html" style="cursor:pointer; color:inherit; text-decoration:none;">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; margin-bottom:18px;">Our Expertise</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:14px; color:rgba(255,255,255,0.75);">
+          <a href="../feasibility-studies.html" style="cursor:pointer; color:inherit; text-decoration:none;">Feasibility Studies</a><a href="../masterplans.html" style="cursor:pointer; color:inherit; text-decoration:none;">Masterplans</a><a href="../commercial-irrigation-design.html" style="cursor:pointer; color:inherit; text-decoration:none;">Commercial Irrigation Design</a><a href="../irrigation-upgrades.html" style="cursor:pointer; color:inherit; text-decoration:none;">Irrigation Upgrades</a><a href="../bulk-water-supply.html" style="cursor:pointer; color:inherit; text-decoration:none;">Bulk Water Supply</a><a href="../system-assessments.html" style="cursor:pointer; color:inherit; text-decoration:none;">System Assessments</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; margin-bottom:18px;">Resources</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:14px; color:rgba(255,255,255,0.75);">
+          <a href="../insights.html#services-cost-estimator" style="cursor:pointer; color:inherit; text-decoration:none;">Services Cost Estimator</a><a href="pipeline-lifecycle-cost-analyser.html" style="cursor:pointer; color:inherit; text-decoration:none;">Pipe Lifecycle Cost Analysis</a><a href="irrigation-roi-calculator.html" style="cursor:pointer; color:inherit; text-decoration:none;">Irrigation ROI Calculator</a><a href="../insights.html#blog" style="cursor:pointer; color:inherit; text-decoration:none;">Blog</a>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:26px;">
+          <span style="font-size:14px; font-weight:600;">Follow us</span>
+          <a href="https://www.linkedin.com/company/antconsult" target="_blank" rel="noopener" aria-label="Ant Consult on LinkedIn" style="width:30px; height:30px; border:1px solid rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; cursor:pointer; color:inherit; text-decoration:none;">in</a>
+        </div>
+        <form class="newsletter-form" style="display:flex; align-items:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:999px; padding:9px 9px 9px 18px; gap:10px;">
+          <input type="email" name="email" class="newsletter-input" placeholder="Enter email to subscribe" required style="flex:1; min-width:0; background:none; border:none; outline:none; font-family:inherit; font-size:13px; color:#fff;">
+          <button type="submit" class="newsletter-btn" style="white-space:nowrap; flex:none; width:auto; border-radius:999px; border:none; font-size:13px; font-weight:600; font-family:inherit; line-height:1; padding:12px 24px; cursor:pointer;">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-legal-bar" style="border-top:1px solid rgba(255,255,255,0.16); padding-top:24px; display:flex; justify-content:space-between; align-items:center; gap:24px; font-size:13px; color:rgba(255,255,255,0.6);">
+      <div class="footer-legal-left" style="display:flex; align-items:center; gap:18px;">
+        <span>&copy; 2026 Ant Consult. All rights reserved.</span>
+        <span style="width:1px; height:12px; background:rgba(255,255,255,0.22);"></span>
+        <a href="../assets/ant-consult-paia-manual.pdf" class="hover-fade" style="cursor:pointer; color:rgba(255,255,255,0.6); text-decoration:none;">Privacy Policy</a>
+        <a href="../assets/ant-consult-terms-and-conditions.pdf" class="hover-fade" style="cursor:pointer; color:rgba(255,255,255,0.6); text-decoration:none;">Terms of Use</a>
+      </div>
+      <span>Engineered for the total cost of ownership.</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==============================================================
+   CONFIG
+   Leads route through the same Zapier webhook used by the other
+   Ant Consult tools (Zapier -> Brevo). No secrets live in this file.
+================================================================*/
+const CONFIG = {
+  ZAPIER_WEBHOOK_URL: 'https://hooks.zapier.com/hooks/catch/25507063/uv5wlr1/',
+  PUMP_EFFICIENCY: 0.75,
+  VSD_EFFICIENCY: 0.95,
+  MOTOR_EFFICIENCY: 0.75,
+  GRAVITY: 9.81
+};
+
+const SYSTEMS = {
+  'Sprinkler':       { eff: 0.65, head: 60, rate: 1, capZAR: 70000,  mgmt: 0.85 },
+  'Pivot':           { eff: 0.80, head: 60, rate: 1, capZAR: 80000,  mgmt: 0.95 },
+  'Drip':            { eff: 0.90, head: 50, rate: 1, capZAR: 120000, mgmt: 1.00 },
+  'Drip Subsurface': { eff: 0.92, head: 50, rate: 1, capZAR: 135000, mgmt: 1.00 },
+  'Linear Move':     { eff: 0.80, head: 30, rate: 1, capZAR: 85000,  mgmt: 0.95 },
+  'Micro Sprinkler': { eff: 0.85, head: 50, rate: 1, capZAR: 105000, mgmt: 0.95 }
+};
+
+let unlocked = false;
+let lastResults = null;
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function curSymbol(c) { return c === 'USD' ? '$' : 'R'; }
+function fmtNum(v) {
+  const sign = v < 0 ? '-' : '';
+  const s = Math.round(Math.abs(v)).toString();
+  return sign + s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+function fmtMoney(v, currency) { return curSymbol(currency) + fmtNum(v); }
+
+function kwhPerHa(sys, demand) {
+  const grossMM = demand / sys.eff;
+  const m3ha = grossMM / 1000 * 10000;
+  const hours = m3ha / (sys.rate / 1000 * 3600);
+  const kW = sys.head * CONFIG.GRAVITY * sys.rate / (CONFIG.PUMP_EFFICIENCY * CONFIG.VSD_EFFICIENCY * CONFIG.MOTOR_EFFICIENCY * 1000);
+  return hours * kW;
+}
+function annuity(principal, ratePct, years) {
+  if (principal <= 0) return 0;
+  const r = ratePct / 100;
+  if (r === 0) return principal / years;
+  return principal * r / (1 - Math.pow(1 + r, -years));
+}
+
+function gatherInputs() {
+  const currency = document.getElementById('currency').value;
+  const usdRate = parseFloat(document.getElementById('usd-rate').value) || 18.5;
+  const sysKey = document.getElementById('system-type').value;
+  return {
+    sysKey, sys: SYSTEMS[sysKey],
+    crop: document.getElementById('crop').value,
+    area: parseFloat(document.getElementById('area').value) || 0,
+    demand: parseFloat(document.getElementById('demand').value) || 0,
+    curYield: parseFloat(document.getElementById('cur-yield').value) || 0,
+    yieldInc: parseFloat(document.getElementById('yield-inc').value) || 0,
+    price: parseFloat(document.getElementById('price').value) || 0,
+    powerCost: parseFloat(document.getElementById('power-cost').value) || 0,
+    powerEsc: (parseFloat(document.getElementById('power-escalation').value) || 0) / 100,
+    inflation: (parseFloat(document.getElementById('inflation').value) || 0) / 100,
+    discount: (parseFloat(document.getElementById('discount-rate').value) || 0) / 100,
+    interest: parseFloat(document.getElementById('interest').value) || 0,
+    term: Math.max(1, parseInt(document.getElementById('term').value, 10) || 1),
+    currency, usdRate
+  };
+}
+
+function buildSeries(income0, capital, power0, rm0, p) {
+  const pay = annuity(capital, p.interest, p.term);
+  const arr = [];
+  let cumNPV = -capital, payback = null;
+  let pvPower = 0, pvRM = 0, pvIncome = 0;
+  for (let y = 1; y <= 20; y++) {
+    const infl = Math.pow(1 + p.inflation, y - 1);
+    const esc = Math.pow(1 + p.powerEsc, y - 1);
+    const disc = Math.pow(1 + p.discount, y);
+    const incomeY = income0 * infl;
+    const powerY = power0 * esc;
+    const rmY = rm0 * infl;
+    const repayY = y <= p.term ? pay : 0;
+    const nominalNet = incomeY - powerY - rmY - repayY;
+    const pvNet = nominalNet / disc;
+    cumNPV += pvNet;
+    arr.push(cumNPV);
+    pvPower += powerY / disc;
+    pvRM += rmY / disc;
+    pvIncome += incomeY / disc;
+    if (payback === null && cumNPV >= 0) payback = y;
+  }
+  const roiAt = y => (arr[y - 1] / capital) * 100;
+  return { series: arr, payback, roi: { 5: roiAt(5), 10: roiAt(10), 20: roiAt(20) }, npvPower: pvPower, npvRM: pvRM, npvIncome: pvIncome };
+}
+
+function calculate(inp) {
+  if (!inp.sys || inp.area <= 0) return null;
+  const capPerHa = inp.currency === 'USD' ? inp.sys.capZAR / inp.usdRate : inp.sys.capZAR;
+  const yieldUplift = inp.yieldInc * inp.sys.mgmt;
+  const income = yieldUplift * inp.area * inp.price;
+  const capital = capPerHa * inp.area;
+  const designCost = capital * 0.05;
+  const totalCapital = capital + designCost;
+  const kwh = kwhPerHa(inp.sys, inp.demand) * inp.area;
+  const power = kwh * inp.powerCost;
+  const rm = capital * 0.02;
+
+  const bCapital = capital * 0.8;
+  const bDesignCost = bCapital * 0.05;
+  const bTotalCapital = bCapital + bDesignCost;
+  const bPower = power * 1.5;
+  const bRm = bCapital * 0.02 * 1.5;
+  const bIncome = (yieldUplift * 0.95) * inp.area * inp.price;
+
+  const opt = buildSeries(income, totalCapital, power, rm, inp);
+  const base = buildSeries(bIncome, bTotalCapital, bPower, bRm, inp);
+
+  return { inputs: inp, income, capital, designCost, totalCapital, power, rm, kwh, opt, base };
+}
+
+function renderFree(r) {
+  const c = r.inputs.currency;
+  document.getElementById('t-income').textContent = fmtMoney(r.income, c);
+  document.getElementById('t-capital').textContent = fmtMoney(r.capital, c);
+  document.getElementById('t-design').textContent = fmtMoney(r.designCost, c);
+  document.getElementById('t-power').textContent = fmtMoney(r.power, c);
+  document.getElementById('t-payback').textContent = r.opt.payback ? r.opt.payback + ' yr' : '> 20 yr';
+}
+
+function renderLocked(r) {
+  document.getElementById('t-roi5').textContent = Math.round(r.opt.roi[5]) + '%';
+  document.getElementById('t-roi10').textContent = Math.round(r.opt.roi[10]) + '%';
+  document.getElementById('t-roi20').textContent = Math.round(r.opt.roi[20]) + '%';
+  document.getElementById('t-kwh').textContent = fmtNum(r.kwh);
+  renderRoiTable(r);
+  renderRoiChart(r);
+}
+
+function renderRoiTable(r) {
+  const c = r.inputs.currency;
+  const rows = [5, 10, 20].map(y => `<tr>
+      <td>${y}-year</td>
+      <td>${fmtMoney(r.opt.series[y - 1], c)}</td>
+      <td>${Math.round(r.opt.roi[y])}%</td>
+      <td>${fmtMoney(r.base.series[y - 1], c)}</td>
+      <td>${Math.round(r.base.roi[y])}%</td>
+    </tr>`).join('');
+  document.getElementById('roi-table').innerHTML = `
+    <thead><tr><th>Horizon</th><th>Optimised (NPV)</th><th>Optimised (ROI)</th><th>Non-Optimised (NPV)</th><th>Non-Optimised (ROI)</th></tr></thead>
+    <tbody>${rows}
+      <tr class="total-row"><td>Payback</td><td colspan="2">${r.opt.payback ? r.opt.payback + ' yr' : '> 20 yr'}</td><td colspan="2">${r.base.payback ? r.base.payback + ' yr' : '> 20 yr'}</td></tr>
+    </tbody>`;
+}
+
+function renderRoiChart(r) {
+  const el = document.getElementById('roi-chart');
+  if (el.clientWidth === 0 || el.clientHeight === 0) {
+    requestAnimationFrame(() => renderRoiChart(r));
+    return;
+  }
+  el.innerHTML = '';
+  const c = r.inputs.currency;
+  const W = el.clientWidth, H = el.clientHeight;
+  const M = { top: 24, right: 24, bottom: 30, left: 90 };
+  const cw = W - M.left - M.right, ch = H - M.top - M.bottom;
+  const allVals = r.opt.series.concat(r.base.series);
+  const maxVal = Math.max(...allVals, 0) * 1.1 || 1;
+  const minVal = Math.min(...allVals, 0) * 1.1;
+  const range = maxVal - minVal || 1;
+  const xs = i => M.left + (i / 19) * cw;
+  const ys = v => M.top + ch - ((v - minVal) / range) * ch;
+  const zeroY = ys(0);
+  const series = [
+    { name: 'Optimised', color: '#05515B', data: r.opt.series, width: 3 },
+    { name: 'Non-Optimised', color: '#F4A258', data: r.base.series, width: 2 }
+  ];
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+    ${[0,0.25,0.5,0.75,1].map(t => `<line x1="${M.left}" y1="${M.top+ch*t}" x2="${M.left+cw}" y2="${M.top+ch*t}" stroke="#E7EEEC"/>`).join('')}
+    ${[0,0.25,0.5,0.75,1].map(t => `<text x="${M.left-8}" y="${M.top+ch*t+4}" text-anchor="end" font-size="11" font-family="Poppins" fill="#8A9793">${curSymbol(c)}${fmtNum(maxVal-(range*t))}</text>`).join('')}
+    <line x1="${M.left}" y1="${zeroY}" x2="${M.left+cw}" y2="${zeroY}" stroke="#B9CFCA" stroke-dasharray="4,4"/>
+    ${series.map(s => `<polyline points="${s.data.map((v,i) => `${xs(i)},${ys(v)}`).join(' ')}" fill="none" stroke="${s.color}" stroke-width="${s.width}" stroke-linejoin="round"/>`).join('')}
+    ${[0,4,9,14,19].map(i => `<text x="${xs(i)}" y="${H-8}" text-anchor="middle" font-size="11" font-family="Poppins" fill="#5E6E6A">Yr ${i+1}</text>`).join('')}
+  </svg>
+  <div style="display:flex; gap:20px; justify-content:center; margin-top:8px; font-size:12px; color:#5E6E6A;">
+    ${series.map(s => `<span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:14px; height:3px; background:${s.color}; display:inline-block;"></span>${s.name}</span>`).join('')}
+  </div>`;
+}
+
+function runCalculation() {
+  const inputs = gatherInputs();
+  const results = calculate(inputs);
+  if (!results) { showToast('Enter a valid irrigated area to see results'); return; }
+  lastResults = results;
+  document.getElementById('free-results').classList.add('show');
+  if (unlocked) {
+    document.getElementById('locked-results').classList.add('show');
+    document.getElementById('gate-section').classList.remove('show');
+  } else {
+    document.getElementById('gate-section').classList.add('show');
+  }
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    renderFree(results);
+    if (unlocked) renderLocked(results);
+  }));
+}
+
+async function submitGate(e) {
+  e.preventDefault();
+  const name = document.getElementById('gate-name').value.trim();
+  const email = document.getElementById('gate-email').value.trim();
+  const town = document.getElementById('gate-town').value.trim();
+  const errEl = document.getElementById('gate-error');
+  const btn = document.getElementById('gate-submit');
+  if (!name || !email || !email.includes('@') || !town) {
+    errEl.textContent = 'Please enter your name, email and nearest town.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Unlocking…';
+
+  try {
+    await fetch(CONFIG.ZAPIER_WEBHOOK_URL, {
+      method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, town, source: 'irrigation-roi-calculator', timestamp: new Date().toISOString(), inputs: lastResults ? lastResults.inputs : null })
+    });
+  } catch (err) { console.warn('Webhook failed (continuing):', err); }
+
+  localStorage.setItem('ant_unlocked', JSON.stringify({ name, email, town, ts: Date.now() }));
+  unlocked = true;
+  if (lastResults) {
+    renderLocked(lastResults);
+    document.getElementById('locked-results').classList.add('show');
+  }
+  document.getElementById('gate-section').classList.remove('show');
+  btn.disabled = false;
+  btn.innerHTML = 'Unlock Full Report &nbsp;&rarr;';
+  document.getElementById('locked-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function checkUnlocked() {
+  const stored = localStorage.getItem('ant_unlocked');
+  if (stored) {
+    try {
+      const obj = JSON.parse(stored);
+      if (Date.now() - obj.ts < 90 * 24 * 60 * 60 * 1000) { unlocked = true; return; }
+    } catch (e) {}
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  checkUnlocked();
+  runCalculation();
+  [
+    'currency','usd-rate','system-type','crop','area','demand','cur-yield','yield-inc',
+    'price','power-cost','power-escalation','inflation','discount-rate','interest','term'
+  ].forEach(id => {
+    document.getElementById(id).addEventListener('input', runCalculation);
+    document.getElementById(id).addEventListener('change', runCalculation);
+  });
+  document.getElementById('gate-form').addEventListener('submit', submitGate);
+});
+</script>
+</body>
+</html>

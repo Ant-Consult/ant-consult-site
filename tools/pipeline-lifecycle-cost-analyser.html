@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pipeline Lifecycle Cost Analyser | Ant Consult</title>
+<meta name="description" content="Compare friction-loss energy and full lifecycle cost across pipe size options to find the optimum diameter for your irrigation project.">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; max-width:100vw; width:100%; overflow-x:hidden; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { background:#E2E7E6; font-family:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif; }
+  a { color:#F4A258; text-decoration:none; }
+  a:hover { color:#05515B; }
+  ::selection { background:#F4A258; color:#fff; }
+  img { max-width:100%; }
+  .mobile-nav-toggle { position:absolute; opacity:0; pointer-events:none; }
+  .hamburger-btn { display:none; flex-direction:column; justify-content:center; gap:5px; width:26px; height:20px; cursor:pointer; flex:none; }
+  .hamburger-btn span { display:block; height:2px; background:#fff; border-radius:1px; }
+
+  .hover-fade { transition:color 140ms ease; }
+  .hover-fade:hover { color:#F8C08C !important; }
+
+  .cta-btn-orange { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
+  .cta-btn-orange:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
+  .cta-btn-teal { background:#05515B; color:#fff; transition:all 0.3s ease; }
+  .cta-btn-teal:hover { background:transparent; color:#05515B; box-shadow:inset 0 0 0 1px #05515B; }
+  .newsletter-btn { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
+  .newsletter-btn:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
+  .roi-btn { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
+  .roi-btn:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
+
+  .nav-link { color:rgba(255,255,255,0.92); transition:color 150ms ease, border-color 150ms ease; border-bottom:2px solid transparent; padding-bottom:4px; }
+  .nav-link:hover { color:#fff; border-bottom-color:rgba(244,162,88,0.55); }
+  .nav-drop { position:relative; display:flex; align-items:center; }
+  .nav-drop-panel { position:absolute; top:100%; left:50%; padding-top:18px; min-width:288px; z-index:20; opacity:0; visibility:hidden; transform:translate(-50%, 8px); transition:opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; will-change:opacity, transform; }
+  .nav-drop:hover .nav-drop-panel { opacity:1; visibility:visible; transform:translate(-50%, 0); }
+  .nav-drop-item { transition:background 140ms ease; }
+  .nav-drop-item:hover { background:#F1F6F4; }
+  .nav-drop-all { color:#05515B; transition:color 140ms ease; }
+  .nav-drop-all:hover { color:#B96A22; }
+
+  /* ---- calculator UI ---- */
+  .field-label { font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:600; color:#5E6E6A; margin-bottom:8px; display:block; }
+  .field-input, .field-select { width:100%; background:#FBFCFC; border:1px solid #DFE9E6; border-radius:10px; padding:12px 14px; font-size:15px; font-family:inherit; color:#12312F; }
+  .field-input:focus, .field-select:focus { outline:none; border-color:#05515B; }
+  .field-row { display:flex; gap:8px; }
+  .field-row .field-input { flex:1; min-width:0; }
+  .field-row .field-select.unit { width:96px; flex:none; }
+
+  .size-card { background:#F4F7F6; border:1px solid #DFE9E6; border-radius:14px; padding:22px 20px; }
+  .size-card.selected { border-color:#F4A258; background:#FFF8F1; }
+  .label-tag { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; color:#B96A22; margin-bottom:10px; }
+  .size-value { font-family:'Ubuntu',sans-serif; font-size:24px; font-weight:500; color:#05515B; margin-bottom:14px; }
+  .metric { display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-top:1px solid #E7EEEC; font-size:14px; }
+  .metric-label { color:#5E6E6A; }
+  .metric-value { color:#12312F; font-weight:600; }
+  .metric-value.big { color:#05515B; font-size:16px; }
+
+  .gate-input { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:12px; padding:15px 18px; font-size:15px; color:#fff; font-family:inherit; width:100%; }
+  .gate-input::placeholder { color:rgba(255,255,255,0.55); }
+
+  .lc-table { width:100%; border-collapse:collapse; }
+  .lc-table th, .lc-table td { padding:12px 14px; text-align:right; border-bottom:1px solid #E7EEEC; font-size:14px; white-space:nowrap; }
+  .lc-table th:first-child, .lc-table td:first-child { text-align:left; color:#5E6E6A; white-space:normal; }
+  .lc-table th { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#5E6E6A; font-weight:600; }
+  .lc-table .optimum-col { background:#EAF3EC; }
+  .lc-table .total-row td { font-weight:700; color:#05515B; border-top:2px solid #05515B; border-bottom:none; }
+
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:#12312F; color:#fff; padding:14px 22px; border-radius:10px; font-size:14px; opacity:0; pointer-events:none; transition:opacity 200ms ease, transform 200ms ease; z-index:999; max-width:88vw; text-align:center; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  [data-panel] { display:none; }
+  [data-panel].show { display:block; }
+
+@media (max-width: 768px) {
+    .section-pad-lg { padding:36px 22px !important; }
+    h1 { font-size:32px !important; }
+    h2 { font-size:26px !important; line-height:1.3 !important; }
+    .hamburger-btn { display:flex !important; }
+    .nav-links-row {
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column !important;
+      align-items:stretch !important;
+      gap:0 !important;
+      background:#05515B;
+      padding:10px 22px 26px !important;
+      border-top:1px solid rgba(255,255,255,0.14);
+      box-shadow:0 20px 40px rgba(4,40,46,0.28);
+      z-index:60;
+      opacity:0 !important;
+      visibility:hidden !important;
+      transform:translateY(-8px) !important;
+      transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+    }
+    .mobile-nav-toggle:checked ~ .nav-links-row {
+      opacity:1 !important;
+      visibility:visible !important;
+      transform:translateY(0) !important;
+    }
+    .nav-links-row > a, .nav-links-row .nav-link {
+      display:block !important;
+      width:100% !important;
+      padding:14px 6px !important;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+    }
+    .nav-links-row .nav-drop { width:100%; }
+    .nav-links-row span[style*="width:1px"] { display:none !important; }
+    .nav-links-row .roi-btn { display:none !important; }
+    .two-col-grid, .three-col-grid, .four-col-grid, .footer-cols-grid { display:flex !important; flex-direction:column !important; align-items:stretch !important; }
+    .footer-legal-bar { flex-direction:column !important; align-items:center !important; text-align:center !important; gap:12px !important; font-size:12px !important; }
+    .footer-legal-left { flex-direction:column !important; gap:8px !important; }
+    .footer-legal-left span[style*="width:1px"] { display:none !important; }
+    .lc-table { display:block; overflow-x:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div style="width:100%; background:#FFFFFF; overflow:hidden;">
+
+  <!-- NAV -->
+  <div class="section-pad-lg" style="position:relative; z-index:100; background:#05515B; display:flex; align-items:center; justify-content:space-between; padding:26px 5vw;">
+    <a href="../index.html" style="display:block;"><img src="../assets/logo.png" alt="Ant Consult" style="height:52px; width:auto; display:block;" loading="eager" decoding="async"></a>
+    <input type="checkbox" id="mobile-nav-toggle" class="mobile-nav-toggle"><label for="mobile-nav-toggle" class="hamburger-btn" aria-label="Open menu"><span></span><span></span><span></span></label>
+    <div class="nav-links-row" style="display:flex; align-items:center; gap:30px; font-size:15px; color:rgba(255,255,255,0.92);">
+      <a href="../about.html" class="nav-link" style="cursor:pointer; text-decoration:none;">About</a>
+      <a href="../aim.html" class="nav-link" style="cursor:pointer; text-decoration:none;">AIM</a>
+      <a href="../solutions.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Solutions</a>
+      <a href="../projects.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Case Studies</a>
+      <div class="nav-drop">
+        <a href="../insights.html" style="cursor:pointer; color:#fff; padding-bottom:4px; border-bottom:2px solid #F4A258; color:inherit; text-decoration:none;">Insights</a>
+        <div class="nav-drop-panel"><div style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; box-shadow:0 24px 60px rgba(4,40,46,0.22); padding:14px; display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B96A22; font-weight:600; padding:6px 16px 10px;">Tools</div>
+          <a href="../insights.html#services-cost-estimator" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Services Cost Estimator</a>
+          <a href="pipeline-lifecycle-cost-analyser.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Pipe Lifecycle Cost Analysis</a>
+          <a href="irrigation-roi-calculator.html" class="nav-drop-item" style="font-size:15px; color:#05515B; padding:11px 16px; border-radius:12px; cursor:pointer; display:block; text-decoration:none;">Irrigation ROI Calculator</a>
+          <div style="border-top:1px solid #E7EEEC; margin:8px 16px 0; padding-top:10px;">
+            <a href="../insights.html#blog" class="nav-drop-all" style="font-size:15px; padding:11px 16px; border-radius:12px; cursor:pointer; padding-left:0; display:block; text-decoration:none;">Blog &rarr;</a>
+          </div>
+        </div></div>
+      </div>
+      <a href="../contact.html" class="nav-link" style="cursor:pointer; text-decoration:none;">Contact</a>
+      <span style="width:1px; height:18px; background:rgba(255,255,255,0.22);"></span>
+      <a href="irrigation-roi-calculator.html" class="roi-btn" style="font-weight:600; padding:10px 20px; border-radius:999px; font-size:14px; cursor:pointer; margin-left:4px; text-decoration:none; display:inline-block;">Calculate your ROI</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="section-pad-lg" style="background:#05515B; padding:72px 5vw 64px; text-align:center; color:#fff;">
+    <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#F8C08C; font-weight:600; margin-bottom:18px;">Tools &middot; Pipeline Lifecycle</div>
+    <h1 style="font-family:'Ubuntu',sans-serif; font-size:47px; line-height:1.12; font-weight:500; letter-spacing:-0.015em; margin:0 0 20px; text-wrap:balance;">Pipeline Lifecycle Cost Analyser</h1>
+    <p style="font-size:17px; line-height:1.6; color:rgba(255,255,255,0.85); margin:0 auto; max-width:640px; text-wrap:pretty;">Is your pipe sized for pressure, or for profit? Compare friction-loss energy and full lifecycle cost across pipe size options to find the optimum diameter for your project.</p>
+  </div>
+
+  <!-- PROJECT INPUTS -->
+  <div class="section-pad-lg" style="background:#F4F7F6; padding:56px 5vw;">
+    <div style="background:#fff; border:1px solid #DFE9E6; border-radius:18px; padding:36px 5vw 32px; max-width:1120px; margin:0 auto;">
+      <div style="font-family:'Ubuntu',sans-serif; font-size:22px; font-weight:500; color:#12312F; margin-bottom:6px;">Project Inputs</div>
+      <p style="font-size:14px; color:#5E6E6A; margin:0 0 28px;">Enter your pipeline parameters. All fields are required.</p>
+
+      <div class="three-col-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:24px;">
+        <div>
+          <span class="field-label">Pipe Length</span>
+          <div class="field-row">
+            <input type="number" id="pipe-length" class="field-input" min="1" step="1" value="1000">
+            <select id="length-unit" class="field-select unit">
+              <option value="m" selected>m</option>
+              <option value="km">km</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">Flow Rate</span>
+          <div class="field-row">
+            <input type="number" id="flow-rate" class="field-input" min="0.0001" step="0.001" value="0.1">
+            <select id="flow-unit" class="field-select unit">
+              <option value="m3s" selected>m&sup3;/s</option>
+              <option value="ls">l/s</option>
+              <option value="m3hr">m&sup3;/hr</option>
+              <option value="klhr">kL/hr</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">Pipe Material</span>
+          <select id="material" class="field-select">
+            <option value="UPVC" selected>uPVC</option>
+            <option value="MPVC">mPVC</option>
+            <option value="HDPE">HDPE</option>
+            <option value="GRP">GRP</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="three-col-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+        <div>
+          <span class="field-label">Pipe Diameter / Class</span>
+          <select id="diameter-class" class="field-select"></select>
+        </div>
+        <div>
+          <span class="field-label">Currency</span>
+          <select id="currency" class="field-select">
+            <option value="ZAR" selected>ZAR &mdash; South African Rand</option>
+            <option value="USD">USD &mdash; US Dollar</option>
+          </select>
+        </div>
+        <div>
+          <span class="field-label">ZAR &rarr; USD Rate</span>
+          <input type="number" id="usd-rate" class="field-input" min="1" step="0.01" value="18.50">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE RESULTS -->
+  <div id="free-results" data-panel style="background:#fff; padding:0 5vw 56px;">
+    <div style="max-width:1120px; margin:0 auto;">
+      <div style="font-family:'Ubuntu',sans-serif; font-size:26px; font-weight:500; color:#12312F; margin-bottom:6px;">Friction Loss Energy Cost by Pipe Size</div>
+      <p style="font-size:15px; color:#5E6E6A; margin:0 0 24px;">Annual electrical energy consumed due to friction loss &mdash; compared across one size smaller, your selection, and two sizes larger.</p>
+      <div id="size-cards" class="four-col-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:12px;"></div>
+      <p style="font-size:13px; color:#8A9793; margin:16px 0 32px;">Power consumed assumes typical efficiencies of 75% (Pump), 95% (Motor) and 95% (Variable Speed Drive).</p>
+      <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#5E6E6A; font-weight:600; margin-bottom:16px;">Friction Loss &amp; Electrical Power &mdash; by Pipe Size</div>
+      <div id="power-chart" style="width:100%; height:280px;"></div>
+    </div>
+  </div>
+
+  <!-- GATE -->
+  <div id="gate-section" data-panel style="background:#05515B; color:#fff; text-align:center; padding:64px 5vw;">
+    <div style="max-width:560px; margin:0 auto;">
+      <div style="font-size:38px; margin-bottom:16px;">&#128274;</div>
+      <div style="font-family:'Ubuntu',sans-serif; font-size:28px; font-weight:500; margin-bottom:14px;">Unlock the Full Lifecycle Cost Analysis</div>
+      <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.82); margin:0 0 28px;">See how CAPEX, maintenance, and 20-year discounted power costs compare across all four pipe sizes &mdash; and find the optimum diameter for your project.</p>
+      <form id="gate-form" style="display:flex; flex-direction:column; gap:14px; text-align:left;">
+        <div>
+          <span class="field-label" style="color:rgba(255,255,255,0.7);">Full Name</span>
+          <input type="text" id="gate-name" class="gate-input" required placeholder="Your name">
+        </div>
+        <div>
+          <span class="field-label" style="color:rgba(255,255,255,0.7);">Email Address</span>
+          <input type="email" id="gate-email" class="gate-input" required placeholder="you@company.com">
+        </div>
+        <div>
+          <span class="field-label" style="color:rgba(255,255,255,0.7);">Nearest Town</span>
+          <input type="text" id="gate-town" class="gate-input" required placeholder="e.g. Johannesburg">
+        </div>
+        <div id="gate-error" style="display:none; color:#F8C08C; font-size:13px;"></div>
+        <button type="submit" id="gate-submit" class="cta-btn-orange" style="border:none; border-radius:999px; padding:16px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; margin-top:6px;">Unlock Full Report &nbsp;&rarr;</button>
+      </form>
+      <p style="font-size:12px; color:rgba(255,255,255,0.55); margin:16px 0 0;">No spam &mdash; occasional irrigation engineering insights only. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <!-- LOCKED (full) RESULTS -->
+  <div id="locked-results" data-panel style="background:#fff; padding:56px 5vw;">
+    <div style="max-width:1120px; margin:0 auto;">
+      <div style="font-family:'Ubuntu',sans-serif; font-size:26px; font-weight:500; color:#12312F; margin-bottom:6px;">Full Lifecycle Cost Comparison</div>
+      <p style="font-size:15px; color:#5E6E6A; margin:0 0 28px;">CAPEX, discounted power cost and maintenance over the analysis period, for each pipe size.</p>
+
+      <div style="background:#F4F7F6; border:1px solid #DFE9E6; border-radius:18px; padding:28px 5vw 32px; margin-bottom:32px;">
+        <div style="font-family:'Ubuntu',sans-serif; font-size:18px; font-weight:500; color:#12312F; margin-bottom:20px;">Lifecycle Analysis Parameters</div>
+        <div class="three-col-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+          <div><span class="field-label">Analysis Period (years)</span><input type="number" id="years" class="field-input" min="1" max="50" step="1" value="20"></div>
+          <div><span class="field-label">Discount Rate (%/yr)</span><input type="number" id="discount-rate" class="field-input" min="0" step="0.1" value="5"></div>
+          <div><span class="field-label">Power Escalation (%/yr)</span><input type="number" id="power-escalation" class="field-input" min="0" step="0.1" value="12"></div>
+          <div><span class="field-label">Power Cost (per kWh)</span><input type="number" id="power-cost" class="field-input" min="0" step="0.01" value="1.75"></div>
+          <div><span class="field-label">Maintenance (% CAPEX/yr)</span><input type="number" id="maintenance-pct" class="field-input" min="0" step="0.1" value="0.5"></div>
+          <div><span class="field-label">Operating Hours (per yr)</span><input type="number" id="op-hours" class="field-input" min="0" step="100" value="2500"></div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto; margin-bottom:32px;">
+        <table class="lc-table" id="lifecycle-table"></table>
+      </div>
+      <div id="lifecycle-chart" style="width:100%; height:320px;"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="section-pad-lg" style="background:#F4F7F6; padding:72px 5vw; text-align:center;">
+    <div style="font-family:'Ubuntu',sans-serif; font-size:30px; font-weight:500; color:#12312F; margin-bottom:16px; text-wrap:balance;">Want us to run the full design, not just the numbers?</div>
+    <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0 auto 28px; max-width:560px;">This tool compares pipe sizes in isolation. A full design accounts for the whole system &mdash; pumpstation, mainline and infield &mdash; together.</p>
+    <a href="../contact.html" class="cta-btn-teal" style="padding:16px 34px; border-radius:999px; font-size:16px; font-weight:500; cursor:pointer; text-decoration:none; display:inline-block;">Book a discovery call</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="section-pad-lg" style="background:#05515B; color:#fff; padding:72px 5vw 32px;">
+    <div class="footer-cols-grid" style="display:grid; grid-template-columns:1.4fr 1fr 1.3fr 1.2fr 1.2fr; gap:40px; padding-bottom:56px;">
+      <div>
+        <a href="../index.html" style="display:block;"><img src="../assets/logo.png" alt="Ant Consult" style="height:34px; width:auto; display:block; margin-bottom:24px;" loading="lazy" decoding="async"></a>
+        <div style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.75);">10 Hilton Avenue, Hilton<br>Pietermaritzburg, 3201</div>
+        <div style="font-size:14px; line-height:1.8; color:#F8C08C; margin-top:14px;">info@antconsult.co.za<br>+27 76 375 5043</div>
+        <div style="font-size:14px; font-weight:600; margin-top:22px;">Office Hours</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:4px;">Monday &ndash; Friday 08 AM &ndash; 04 PM</div>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; margin-bottom:18px;">Quick Links</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:14px; color:rgba(255,255,255,0.75);">
+          <a href="../about.html" style="cursor:pointer; color:inherit; text-decoration:none;">About</a><a href="../aim.html" style="cursor:pointer; color:inherit; text-decoration:none;">AIM</a><a href="../solutions.html" style="cursor:pointer; color:inherit; text-decoration:none;">Solutions</a><a href="../projects.html" style="cursor:pointer; color:inherit; text-decoration:none;">Case Studies</a><a href="../insights.html" style="cursor:pointer; color:inherit; text-decoration:none;">Insights</a><a href="../contact.html" style="cursor:pointer; color:inherit; text-decoration:none;">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; margin-bottom:18px;">Our Expertise</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:14px; color:rgba(255,255,255,0.75);">
+          <a href="../feasibility-studies.html" style="cursor:pointer; color:inherit; text-decoration:none;">Feasibility Studies</a><a href="../masterplans.html" style="cursor:pointer; color:inherit; text-decoration:none;">Masterplans</a><a href="../commercial-irrigation-design.html" style="cursor:pointer; color:inherit; text-decoration:none;">Commercial Irrigation Design</a><a href="../irrigation-upgrades.html" style="cursor:pointer; color:inherit; text-decoration:none;">Irrigation Upgrades</a><a href="../bulk-water-supply.html" style="cursor:pointer; color:inherit; text-decoration:none;">Bulk Water Supply</a><a href="../system-assessments.html" style="cursor:pointer; color:inherit; text-decoration:none;">System Assessments</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; margin-bottom:18px;">Resources</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:14px; color:rgba(255,255,255,0.75);">
+          <a href="../insights.html#services-cost-estimator" style="cursor:pointer; color:inherit; text-decoration:none;">Services Cost Estimator</a><a href="pipeline-lifecycle-cost-analyser.html" style="cursor:pointer; color:inherit; text-decoration:none;">Pipe Lifecycle Cost Analysis</a><a href="irrigation-roi-calculator.html" style="cursor:pointer; color:inherit; text-decoration:none;">Irrigation ROI Calculator</a><a href="../insights.html#blog" style="cursor:pointer; color:inherit; text-decoration:none;">Blog</a>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:26px;">
+          <span style="font-size:14px; font-weight:600;">Follow us</span>
+          <a href="https://www.linkedin.com/company/antconsult" target="_blank" rel="noopener" aria-label="Ant Consult on LinkedIn" style="width:30px; height:30px; border:1px solid rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; cursor:pointer; color:inherit; text-decoration:none;">in</a>
+        </div>
+        <form class="newsletter-form" style="display:flex; align-items:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:999px; padding:9px 9px 9px 18px; gap:10px;">
+          <input type="email" name="email" class="newsletter-input" placeholder="Enter email to subscribe" required style="flex:1; min-width:0; background:none; border:none; outline:none; font-family:inherit; font-size:13px; color:#fff;">
+          <button type="submit" class="newsletter-btn" style="white-space:nowrap; flex:none; width:auto; border-radius:999px; border:none; font-size:13px; font-weight:600; font-family:inherit; line-height:1; padding:12px 24px; cursor:pointer;">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-legal-bar" style="border-top:1px solid rgba(255,255,255,0.16); padding-top:24px; display:flex; justify-content:space-between; align-items:center; gap:24px; font-size:13px; color:rgba(255,255,255,0.6);">
+      <div class="footer-legal-left" style="display:flex; align-items:center; gap:18px;">
+        <span>&copy; 2026 Ant Consult. All rights reserved.</span>
+        <span style="width:1px; height:12px; background:rgba(255,255,255,0.22);"></span>
+        <a href="../assets/ant-consult-paia-manual.pdf" class="hover-fade" style="cursor:pointer; color:rgba(255,255,255,0.6); text-decoration:none;">Privacy Policy</a>
+        <a href="../assets/ant-consult-terms-and-conditions.pdf" class="hover-fade" style="cursor:pointer; color:rgba(255,255,255,0.6); text-decoration:none;">Terms of Use</a>
+      </div>
+      <span>Engineered for the total cost of ownership.</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==============================================================
+   CONFIG
+   Leads route through the same Zapier webhook used by the other
+   Ant Consult tools (Zapier -> Brevo). No secrets live in this file:
+   pipe pricing data is a static asset (pipedb.json) and can only be
+   changed by editing that file and deploying, not from the browser.
+================================================================*/
+const CONFIG = {
+  ZAPIER_WEBHOOK_URL: 'https://hooks.zapier.com/hooks/catch/25507063/uv5wlr1/',
+  PUMP_EFFICIENCY: 0.75,
+  MOTOR_EFFICIENCY: 0.95,
+  VFD_EFFICIENCY: 0.95,
+  GRAVITY: 9.81,
+  WATER_DENSITY: 1000
+};
+
+let PIPE_DB = [];
+let lastResults = null;
+let unlocked = false;
+
+async function loadPipeDB() {
+  const res = await fetch('pipedb.json');
+  PIPE_DB = await res.json();
+}
+
+function flowToM3s(value, unit) {
+  switch (unit) {
+    case 'm3s': return value;
+    case 'ls': return value / 1000;
+    case 'm3hr': return value / 3600;
+    case 'klhr': return value / 3600;
+  }
+  return value;
+}
+function lengthToM(value, unit) { return unit === 'km' ? value * 1000 : value; }
+
+function frictionLossM(L, Q, C, D_mm) {
+  // Hazen-Williams: HL = (10.67 x L x Q^1.852) / (C^1.852 x (D/1000)^4.87)
+  const D = D_mm / 1000;
+  return (10.67 * L * Math.pow(Q, 1.852)) / (Math.pow(C, 1.852) * Math.pow(D, 4.87));
+}
+function flowVelocity(Q, D_mm) {
+  const D = D_mm / 1000;
+  return Q / (Math.PI * D * D / 4);
+}
+function frictionPowerKW(Q, HL_m) { return Q * CONFIG.WATER_DENSITY * CONFIG.GRAVITY * HL_m / 1000; }
+function electricalPowerKW(frictionPower) {
+  return frictionPower / CONFIG.PUMP_EFFICIENCY / CONFIG.MOTOR_EFFICIENCY / CONFIG.VFD_EFFICIENCY;
+}
+
+function getPipesByMaterial(material) { return PIPE_DB.filter(p => p.material === material); }
+
+function getFourSizes(material, diameter_class) {
+  const pipes = getPipesByMaterial(material);
+  const selected = pipes.find(p => p.diameter_class === diameter_class);
+  if (!selected) return null;
+  const selPN = parseFloat(diameter_class.split('/')[1]);
+  const family = pipes
+    .filter(p => parseFloat(p.diameter_class.split('/')[1]) === selPN)
+    .map(p => ({ ...p, _od: parseFloat(p.diameter_class.split('/')[0]) }))
+    .sort((a, b) => a._od - b._od);
+  const idx = family.findIndex(p => p.diameter_class === diameter_class);
+  if (idx === -1) return null;
+  const result = [
+    family[Math.max(0, idx - 1)],
+    family[idx],
+    family[Math.min(family.length - 1, idx + 1)],
+    family[Math.min(family.length - 1, idx + 2)]
+  ];
+  return result.map((p, i) => (i > 0 && p === result[i - 1]) ? null : p);
+}
+
+function calculateFreeResults(inputs) {
+  const { lengthM, flowM3s, material, diameter_class, currency, usdRate } = inputs;
+  const sizes = getFourSizes(material, diameter_class);
+  if (!sizes) return null;
+  const labels = ['1 Size Down', 'Selected', '1 Size Up', '2 Sizes Up'];
+  const sizeData = sizes.map((pipe, i) => {
+    if (!pipe) return { label: labels[i], unavailable: true };
+    const D = pipe.internal_diameter_mm, C = pipe.hazen_c;
+    const v = flowVelocity(flowM3s, D);
+    const HL = frictionLossM(lengthM, flowM3s, C, D);
+    const Pf = frictionPowerKW(flowM3s, HL);
+    const Pe = electricalPowerKW(Pf);
+    const costPerM_ZAR = pipe.cost_zar_per_m;
+    const costPerM = currency === 'USD' ? costPerM_ZAR / usdRate : costPerM_ZAR;
+    return { label: labels[i], pipe, diameter_class: pipe.diameter_class, internal_diameter_mm: D,
+      velocity: v, friction_loss_m: HL, friction_power_kw: Pf, electrical_power_kw: Pe,
+      cost_per_m: costPerM, cost_per_m_zar: costPerM_ZAR };
+  });
+  return { sizeData, inputs };
+}
+
+function fmtCurrency(amount, currency) {
+  if (amount === null || amount === undefined || isNaN(amount)) return '—';
+  const symbol = currency === 'USD' ? '$' : 'R';
+  return `${symbol} ${Math.round(amount).toLocaleString('en-ZA')}`;
+}
+function fmtNum(n, dp = 2) {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  return n.toLocaleString('en-ZA', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function renderFreeResults(results) {
+  const { sizeData } = results;
+  const wrap = document.getElementById('size-cards');
+  wrap.innerHTML = '';
+  sizeData.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'size-card' + (s.label === 'Selected' ? ' selected' : '');
+    if (s.unavailable) {
+      card.innerHTML = `<div class="label-tag">${s.label}</div><div class="size-value">N/A</div><div style="font-size:12px; color:#8A9793;">Not available at the boundary of this material/pressure class.</div>`;
+    } else {
+      const labelText = s.label === 'Selected' ? 'Input' : s.label;
+      card.innerHTML = `
+        <div class="label-tag">${labelText}</div>
+        <div class="size-value">${s.diameter_class}</div>
+        <div class="metric"><span class="metric-label">Internal dia.</span><span class="metric-value">${fmtNum(s.internal_diameter_mm, 1)} mm</span></div>
+        <div class="metric"><span class="metric-label">Velocity</span><span class="metric-value">${fmtNum(s.velocity, 2)} m/s</span></div>
+        <div class="metric"><span class="metric-label">Friction loss</span><span class="metric-value">${fmtNum(s.friction_loss_m, 2)} m</span></div>
+        <div class="metric"><span class="metric-label">Electrical power</span><span class="metric-value big">${fmtNum(s.electrical_power_kw, 2)} kW</span></div>`;
+    }
+    wrap.appendChild(card);
+  });
+  renderPowerChart(sizeData);
+}
+
+function renderPowerChart(sizeData) {
+  const el = document.getElementById('power-chart');
+  if (el.clientWidth === 0 || el.clientHeight === 0) {
+    requestAnimationFrame(() => renderPowerChart(sizeData));
+    return;
+  }
+  el.innerHTML = '';
+  const valid = sizeData.filter(s => !s.unavailable);
+  if (valid.length === 0) return;
+  const points = valid.map(s => ({ label: s.diameter_class, friction: s.friction_loss_m, power: s.electrical_power_kw, isSelected: s.label === 'Selected' }));
+  const W = el.clientWidth, H = el.clientHeight;
+  const M = { top: 28, right: 70, bottom: 40, left: 70 };
+  const cw = W - M.left - M.right, ch = H - M.top - M.bottom;
+  const maxFriction = Math.max(...points.map(p => p.friction)) * 1.1 || 1;
+  const maxPower = Math.max(...points.map(p => p.power)) * 1.1 || 1;
+  const xs = i => M.left + (i / Math.max(1, points.length - 1)) * cw;
+  const yFriction = v => M.top + ch - (v / maxFriction) * ch;
+  const yPower = v => M.top + ch - (v / maxPower) * ch;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+    ${[0,0.25,0.5,0.75,1].map(t => `<line x1="${M.left}" y1="${M.top+ch*t}" x2="${M.left+cw}" y2="${M.top+ch*t}" stroke="#E7EEEC" stroke-width="1"/>`).join('')}
+    ${[0,0.25,0.5,0.75,1].map(t => `<text x="${M.left-8}" y="${M.top+ch*t+4}" text-anchor="end" font-size="11" font-family="Poppins" fill="#8A9793">${(maxFriction*(1-t)).toFixed(1)} m</text>`).join('')}
+    ${[0,0.25,0.5,0.75,1].map(t => `<text x="${M.left+cw+8}" y="${M.top+ch*t+4}" font-size="11" font-family="Poppins" fill="#8A9793">${(maxPower*(1-t)).toFixed(2)} kW</text>`).join('')}
+    <polyline points="${points.map((p,i) => `${xs(i)},${yFriction(p.friction)}`).join(' ')}" fill="none" stroke="#F4A258" stroke-width="2.5" stroke-linejoin="round"/>
+    <polyline points="${points.map((p,i) => `${xs(i)},${yPower(p.power)}`).join(' ')}" fill="none" stroke="#05515B" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round"/>
+    ${points.map((p,i) => `<circle cx="${xs(i)}" cy="${yFriction(p.friction)}" r="${p.isSelected?6:4}" fill="#F4A258" stroke="#fff" stroke-width="2"/><circle cx="${xs(i)}" cy="${yPower(p.power)}" r="${p.isSelected?5:3}" fill="#05515B" stroke="#fff" stroke-width="1.5"/>`).join('')}
+    ${points.map((p,i) => `<text x="${xs(i)}" y="${H-16}" text-anchor="middle" font-size="11" font-family="Poppins" fill="${p.isSelected?'#B96A22':'#5E6E6A'}" font-weight="${p.isSelected?'600':'400'}">${p.label}</text>`).join('')}
+    <text x="${M.left}" y="${M.top-10}" font-size="11" font-family="Poppins" fill="#8A9793">Friction Loss (m)</text>
+    <text x="${M.left+cw}" y="${M.top-10}" text-anchor="end" font-size="11" font-family="Poppins" fill="#8A9793">Electrical Power (kW)</text>
+  </svg>`;
+}
+
+function calculateLifecycle(freeResults, lcInputs) {
+  const { sizeData, inputs } = freeResults;
+  const { currency, lengthM, usdRate } = inputs;
+  const { years, discountRate, escalationRate, powerCost, maintenancePct, opHours } = lcInputs;
+  const lifecycle = sizeData.map(s => {
+    if (s.unavailable) return { label: s.label, unavailable: true };
+    const capex = s.cost_per_m * lengthM;
+    const effectivePowerCost = currency === 'USD' ? powerCost / usdRate : powerCost;
+    const annualCosts = [];
+    for (let y = 1; y <= years; y++) {
+      const escalator = Math.pow(1 + escalationRate, y - 1);
+      annualCosts.push(s.electrical_power_kw * opHours * effectivePowerCost * escalator);
+    }
+    const npvPower = annualCosts.reduce((sum, c, idx) => sum + c / Math.pow(1 + discountRate, idx + 1), 0);
+    const annuityFactor = (1 - Math.pow(1 + discountRate, -years)) / discountRate;
+    const npvMaintenance = maintenancePct * capex * annuityFactor;
+    const opex = npvPower + npvMaintenance;
+    const lifecycleCost = capex + opex;
+    return { label: s.label, diameter_class: s.diameter_class, capex, annualPowerYear1: annualCosts[0],
+      npvPower, npvMaintenance, opex, lifecycleCost, isSelected: s.label === 'Selected' };
+  });
+  const valid = lifecycle.filter(l => !l.unavailable);
+  if (valid.length > 0) {
+    const minCost = Math.min(...valid.map(l => l.lifecycleCost));
+    lifecycle.forEach(l => { if (!l.unavailable) l.isOptimum = l.lifecycleCost === minCost; });
+  }
+  return lifecycle;
+}
+
+function renderLifecycleResults(lifecycle, inputs) {
+  const { currency } = inputs;
+  const t = document.getElementById('lifecycle-table');
+  const rowsHTML = (label, key) => `<tr><td>${label}</td>${lifecycle.map(l => `<td class="num ${l.isOptimum?'optimum-col':''}">${l.unavailable?'—':fmtCurrency(l[key], currency)}</td>`).join('')}</tr>`;
+  t.innerHTML = `
+    <thead><tr><th>Cost Component</th>${lifecycle.map(l => {
+      const cls = l.isOptimum ? 'optimum-col' : '';
+      const tag = l.isOptimum ? ' <span style="font-size:10px; background:#708c69; color:#fff; padding:1px 6px; border-radius:4px;">OPTIMUM</span>' : '';
+      const lbl = l.label === 'Selected' ? 'Input' : l.label;
+      return `<th class="${cls}">${lbl}${tag}<br><span style="font-weight:400; font-size:11px; color:#8A9793;">${l.unavailable?'N/A':l.diameter_class}</span></th>`;
+    }).join('')}</tr></thead>
+    <tbody>
+      ${rowsHTML('CAPEX', 'capex')}
+      ${rowsHTML('Year 1 Power Cost (nominal)', 'annualPowerYear1')}
+      ${rowsHTML('NPV of Power Cost', 'npvPower')}
+      ${rowsHTML('NPV of Maintenance', 'npvMaintenance')}
+      ${rowsHTML('OPEX (NPV)', 'opex')}
+      <tr class="total-row"><td>Total Lifecycle Cost</td>${lifecycle.map(l => `<td class="${l.isOptimum?'optimum-col':''}">${l.unavailable?'—':fmtCurrency(l.lifecycleCost, currency)}</td>`).join('')}</tr>
+    </tbody>`;
+  renderLifecycleChart(lifecycle, currency);
+}
+
+function renderLifecycleChart(lifecycle, currency) {
+  const el = document.getElementById('lifecycle-chart');
+  if (el.clientWidth === 0 || el.clientHeight === 0) {
+    requestAnimationFrame(() => renderLifecycleChart(lifecycle, currency));
+    return;
+  }
+  el.innerHTML = '';
+  const valid = lifecycle.filter(l => !l.unavailable);
+  if (valid.length === 0) return;
+  const W = el.clientWidth, H = el.clientHeight;
+  const M = { top: 24, right: 24, bottom: 40, left: 90 };
+  const cw = W - M.left - M.right, ch = H - M.top - M.bottom;
+  const maxVal = Math.max(...valid.map(l => l.lifecycleCost)) * 1.1 || 1;
+  const xs = i => M.left + (i / (valid.length - 1)) * cw;
+  const ys = v => M.top + ch - (v / maxVal) * ch;
+  const series = [
+    { name: 'CAPEX', color: '#05515B', getter: l => l.capex },
+    { name: 'OPEX', color: '#F4A258', getter: l => l.opex },
+    { name: 'Total', color: '#708c69', getter: l => l.lifecycleCost, width: 3 }
+  ];
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+    ${[0,0.25,0.5,0.75,1].map(t => `<line x1="${M.left}" y1="${M.top+ch*t}" x2="${M.left+cw}" y2="${M.top+ch*t}" stroke="#E7EEEC"/>`).join('')}
+    ${[0,0.25,0.5,0.75,1].map(t => `<text x="${M.left-8}" y="${M.top+ch*t+4}" text-anchor="end" font-size="11" font-family="Poppins" fill="#8A9793">${currency==='USD'?'$':'R'}${Math.round(maxVal*(1-t)).toLocaleString()}</text>`).join('')}
+    ${series.map(s => `<polyline points="${valid.map((l,i) => `${xs(i)},${ys(s.getter(l))}`).join(' ')}" fill="none" stroke="${s.color}" stroke-width="${s.width||2}" stroke-linejoin="round"/>${valid.map((l,i) => `<circle cx="${xs(i)}" cy="${ys(s.getter(l))}" r="${l.isOptimum?5:3}" fill="${s.color}" stroke="#fff" stroke-width="1.5"/>`).join('')}`).join('')}
+    ${valid.map((l,i) => `<text x="${xs(i)}" y="${H-14}" text-anchor="middle" font-size="11" font-family="Poppins" fill="${l.isOptimum?'#708c69':'#5E6E6A'}" font-weight="${l.isOptimum?'600':'400'}">${l.diameter_class}${l.isOptimum?' ✓':''}</text>`).join('')}
+  </svg>
+  <div style="display:flex; gap:20px; justify-content:center; margin-top:8px; font-size:12px; color:#5E6E6A;">
+    ${series.map(s => `<span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:14px; height:3px; background:${s.color}; display:inline-block;"></span>${s.name}</span>`).join('')}
+  </div>`;
+}
+
+function populateDiameterClass() {
+  const material = document.getElementById('material').value;
+  const select = document.getElementById('diameter-class');
+  const pipes = getPipesByMaterial(material).slice().sort((a, b) => {
+    const [aOD, aPN] = a.diameter_class.split('/').map(parseFloat);
+    const [bOD, bPN] = b.diameter_class.split('/').map(parseFloat);
+    return aOD !== bOD ? aOD - bOD : aPN - bPN;
+  });
+  select.innerHTML = pipes.map(p => `<option value="${p.diameter_class}">${p.diameter_class}</option>`).join('');
+  const has355 = pipes.some(p => p.diameter_class === '355/6');
+  if (has355) select.value = '355/6';
+  else if (pipes.length > 0) select.value = pipes[Math.floor(pipes.length / 3)].diameter_class;
+}
+
+function gatherInputs() {
+  return {
+    lengthM: lengthToM(parseFloat(document.getElementById('pipe-length').value), document.getElementById('length-unit').value),
+    flowM3s: flowToM3s(parseFloat(document.getElementById('flow-rate').value), document.getElementById('flow-unit').value),
+    material: document.getElementById('material').value,
+    diameter_class: document.getElementById('diameter-class').value,
+    currency: document.getElementById('currency').value,
+    usdRate: parseFloat(document.getElementById('usd-rate').value) || 18.5
+  };
+}
+function gatherLifecycleInputs() {
+  return {
+    years: parseInt(document.getElementById('years').value, 10) || 20,
+    discountRate: (parseFloat(document.getElementById('discount-rate').value) || 0) / 100,
+    escalationRate: (parseFloat(document.getElementById('power-escalation').value) || 0) / 100,
+    powerCost: parseFloat(document.getElementById('power-cost').value) || 0,
+    maintenancePct: (parseFloat(document.getElementById('maintenance-pct').value) || 0) / 100,
+    opHours: parseFloat(document.getElementById('op-hours').value) || 0
+  };
+}
+
+function runCalculation() {
+  const inputs = gatherInputs();
+  const results = calculateFreeResults(inputs);
+  if (!results) { showToast('Could not find pipe data for this selection'); return; }
+  lastResults = results;
+  document.getElementById('free-results').classList.add('show');
+  if (unlocked) {
+    document.getElementById('locked-results').classList.add('show');
+    document.getElementById('gate-section').classList.remove('show');
+  } else {
+    document.getElementById('gate-section').classList.add('show');
+  }
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    renderFreeResults(results);
+    if (unlocked) renderLifecycleResults(calculateLifecycle(results, gatherLifecycleInputs()), inputs);
+  }));
+}
+
+async function submitGate(e) {
+  e.preventDefault();
+  const name = document.getElementById('gate-name').value.trim();
+  const email = document.getElementById('gate-email').value.trim();
+  const town = document.getElementById('gate-town').value.trim();
+  const errEl = document.getElementById('gate-error');
+  const btn = document.getElementById('gate-submit');
+  if (!name || !email || !email.includes('@') || !town) {
+    errEl.textContent = 'Please enter your name, email and nearest town.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Unlocking…';
+
+  try {
+    await fetch(CONFIG.ZAPIER_WEBHOOK_URL, {
+      method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, town, source: 'pipeline-lifecycle-calculator', timestamp: new Date().toISOString(), inputs: lastResults ? lastResults.inputs : null })
+    });
+  } catch (err) { console.warn('Webhook failed (continuing):', err); }
+
+  localStorage.setItem('ant_unlocked', JSON.stringify({ name, email, town, ts: Date.now() }));
+  unlocked = true;
+  if (lastResults) {
+    renderLifecycleResults(calculateLifecycle(lastResults, gatherLifecycleInputs()), lastResults.inputs);
+    document.getElementById('locked-results').classList.add('show');
+  }
+  document.getElementById('gate-section').classList.remove('show');
+  btn.disabled = false;
+  btn.innerHTML = 'Unlock Full Report &nbsp;&rarr;';
+  document.getElementById('locked-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function checkUnlocked() {
+  const stored = localStorage.getItem('ant_unlocked');
+  if (stored) {
+    try {
+      const obj = JSON.parse(stored);
+      if (Date.now() - obj.ts < 90 * 24 * 60 * 60 * 1000) { unlocked = true; return; }
+    } catch (e) {}
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  checkUnlocked();
+  await loadPipeDB();
+  populateDiameterClass();
+  runCalculation();
+
+  document.getElementById('material').addEventListener('change', () => { populateDiameterClass(); runCalculation(); });
+  ['pipe-length','length-unit','flow-rate','flow-unit','diameter-class','currency','usd-rate'].forEach(id => {
+    document.getElementById(id).addEventListener('input', runCalculation);
+    document.getElementById(id).addEventListener('change', runCalculation);
+  });
+  ['years','discount-rate','power-escalation','power-cost','maintenance-pct','op-hours'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { if (unlocked && lastResults) renderLifecycleResults(calculateLifecycle(lastResults, gatherLifecycleInputs()), lastResults.inputs); });
+  });
+  document.getElementById('gate-form').addEventListener('submit', submitGate);
+});
+</script>
+</body>
+</html>
