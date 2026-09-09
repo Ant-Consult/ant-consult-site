@@ -9,8 +9,16 @@
     { "source": "/resources", "destination": "/insights.html", "permanent": true },
     { "source": "/blog", "destination": "/insights.html", "permanent": true },
     { "source": "/get-in-touch", "destination": "/contact.html", "permanent": true },
+    { "source": "/whoweare", "destination": "/about.html", "permanent": true },
+    { "source": "/contact", "destination": "/contact.html", "permanent": true },
+    { "source": "/ant-implementation-method", "destination": "/aim.html", "permanent": true },
+    { "source": "/workwithus", "destination": "/solutions.html", "permanent": true },
+    { "source": "/case-studies", "destination": "/projects.html", "permanent": true },
+    { "source": "/faqs", "destination": "/contact.html", "permanent": true },
+    { "source": "/cost-estimators", "destination": "/tools/services-cost-estimator.html", "permanent": true },
     { "source": "/blog/:slug([^.]+)", "destination": "/blog/:slug.html", "permanent": true },
-    { "source": "/projects/:slug([^.]+)", "destination": "/projects/:slug.html", "permanent": true }
+    { "source": "/projects/:slug([^.]+)", "destination": "/projects/:slug.html", "permanent": true },
+    { "source": "/case-studies/:slug", "destination": "/projects/:slug.html", "permanent": true }
   ],
   "headers": [
     {
