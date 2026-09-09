@@ -20,6 +20,7 @@
   ::selection { background:#F4A258; color:#fff; }
 
   .mobile-nav-toggle { position:absolute; opacity:0; pointer-events:none; }
+  html:has(.mobile-nav-toggle:checked), body:has(.mobile-nav-toggle:checked) { overflow:hidden !important; }
   .mobile-nav-panel {
     position:absolute; top:100%; left:0; right:0;
     display:flex; flex-direction:column;
