@@ -1,3 +1,14 @@
 uploads/
 scraps/
 Website homepage refinement/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vercel
+
+# Dependencies (in case a build step is added later)
+node_modules/
