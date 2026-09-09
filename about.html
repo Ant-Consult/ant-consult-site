@@ -65,7 +65,11 @@
     }
     .stats-grid-2col > div { padding:0 !important; border:none !important; align-items:center !important; }
     .stats-grid-2col > div > div:first-child { justify-content:center !important; height:auto !important; margin-bottom:6px !important; }
+    .stats-grid-2col > div > div:first-child > span:nth-child(1) { font-size:38px !important; white-space:nowrap !important; }
+    .stats-grid-2col > div > div:first-child > span:nth-child(2) { font-size:20px !important; }
     .stats-grid-2col > div > div:last-child { max-width:none !important; }
+    .person-row { flex-direction:column !important; }
+    .person-row > img, .person-row > div:first-child { margin:0 auto !important; }
     .team-photo {
       aspect-ratio:auto !important;
       min-height:auto !important;
@@ -360,7 +364,7 @@
     </div>
 
     <div style="display:flex; flex-direction:column; gap:24px; margin-bottom:32px;">
-      <div style="background:#fff; border:1px solid #DFE9E6; border-radius:18px; padding:28px; display:flex; gap:24px;">
+      <div class="person-row" style="background:#fff; border:1px solid #DFE9E6; border-radius:18px; padding:28px; display:flex; gap:24px;">
         <img src="assets/team-jon.jpg" alt="Jon Kirkman" style="width:150px; height:150px; border-radius:12px; object-fit:cover; object-position:64% 20%; flex:none; display:block;" loading="lazy" decoding="async">
         <div>
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
@@ -371,7 +375,7 @@
           <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">Jon founded Ant Consult to bring structured, independent engineering to large-scale agricultural water infrastructure. He is a degree-qualified Agricultural Engineer (UKZN) and a Registered Professional Engineer with the Engineering Council of South Africa. His work spans irrigation design, bulk water supply, feasibility studies and masterplanning across Africa and the Middle East. Jon is personally involved in every project Ant Consult undertakes, providing clients with direct access to senior engineering expertise from concept through to delivery.</p>
         </div>
       </div>
-      <div style="background:#fff; border:1px solid #DFE9E6; border-radius:18px; padding:28px; display:flex; gap:24px;">
+      <div class="person-row" style="background:#fff; border:1px solid #DFE9E6; border-radius:18px; padding:28px; display:flex; gap:24px;">
         <img src="assets/team-joana.webp" alt="Joana Banne" style="width:150px; height:150px; border-radius:12px; object-fit:cover; object-position:center 18%; flex:none; display:block;" loading="lazy" decoding="async">
         <div>
           <div style="display:flex; align-items:center; gap:9px; margin-bottom:6px;">
@@ -396,7 +400,7 @@
         <span style="height:1px; background:#CBDCD8; flex:1;"></span>
       </div>
       <div class="two-col-grid" style="display:grid; grid-template-columns:1fr 1fr; column-gap:56px;">
-        <div style="display:flex; gap:20px; padding-bottom:32px;">
+        <div class="person-row" style="display:flex; gap:20px; padding-bottom:32px;">
           <img src="assets/team-steve.jpg" alt="Steve Mann" style="width:96px; height:96px; border-radius:12px; object-fit:cover; object-position:center 93%; flex:none; display:block;" loading="lazy" decoding="async">
           <div>
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
@@ -407,7 +411,7 @@
             <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">With over 30 years of experience in civil engineering, Steve specialises in water, stormwater, sewer and road infrastructure design. He supports Ant Consult on projects requiring specialist civil engineering expertise, bringing practical design experience and technical precision to complex infrastructure developments.</p>
           </div>
         </div>
-        <div style="display:flex; gap:20px; padding-bottom:32px;">
+        <div class="person-row" style="display:flex; gap:20px; padding-bottom:32px;">
           <img src="assets/team-stefan.webp" alt="Stefan van Veenendaal" style="width:96px; height:96px; border-radius:12px; object-fit:cover; object-position:center 22%; flex:none; display:block;" loading="lazy" decoding="async">
           <div>
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
@@ -419,7 +423,7 @@
           </div>
         </div>
         <div style="grid-column:1/-1; height:1px; background:#E7EEEC; margin:0 0 32px;"></div>
-        <div style="display:flex; gap:20px; padding-bottom:32px;">
+        <div class="person-row" style="display:flex; gap:20px; padding-bottom:32px;">
           <img src="assets/team-noel.jpg" alt="Noel Stevens" style="width:96px; height:96px; border-radius:12px; object-fit:cover; object-position:center 14%; flex:none; display:block;" loading="lazy" decoding="async">
           <div>
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
@@ -430,7 +434,7 @@
             <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">Noel is an experienced Quantity Surveyor supporting greenfield and brownfield infrastructure projects. He provides cost planning, project evaluation and technical advisory services, and acts as a technical expert on complex engineering matters.</p>
           </div>
         </div>
-        <div style="display:flex; gap:20px; padding-bottom:32px;">
+        <div class="person-row" style="display:flex; gap:20px; padding-bottom:32px;">
           <div style="width:96px; height:96px; border-radius:12px; background:#DCE7E4; display:flex; align-items:center; justify-content:center; flex:none; font-family:'Ubuntu',sans-serif; font-size:22px; font-weight:500; color:#5E6E6A;">AB</div>
           <div>
             <div style="font-family:'Ubuntu',sans-serif; font-size:19px; line-height:1.25; font-weight:500; color:#05515B; letter-spacing:-0.006em; margin-bottom:6px;">Andrew Butler</div>
@@ -440,7 +444,7 @@
           </div>
         </div>
         <div style="grid-column:1/-1; height:1px; background:#E7EEEC; margin:0 0 32px;"></div>
-        <div style="display:flex; gap:20px; padding-bottom:32px;">
+        <div class="person-row" style="display:flex; gap:20px; padding-bottom:32px;">
           <img src="assets/team-jed.jpg" alt="Jed Sherwood" style="width:96px; height:96px; border-radius:12px; object-fit:cover; object-position:center 20%; flex:none; display:block;" loading="lazy" decoding="async">
           <div>
             <div style="font-family:'Ubuntu',sans-serif; font-size:19px; line-height:1.25; font-weight:500; color:#05515B; letter-spacing:-0.006em; margin-bottom:6px;">Jed Sherwood</div>
@@ -448,7 +452,7 @@
             <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">Jed is a Registered Professional Engineering Technologist with 12 years of consulting experience across multidisciplinary civil infrastructure. His expertise spans bulk water pipelines, roads, stormwater, sewer networks and earthworks, with project experience across large-scale residential, commercial and renewable energy developments.</p>
           </div>
         </div>
-        <div style="display:flex; gap:20px; padding-bottom:32px;">
+        <div class="person-row" style="display:flex; gap:20px; padding-bottom:32px;">
           <img src="assets/team-hans.jpg" alt="Hans Veenstra" style="width:96px; height:96px; border-radius:12px; object-fit:cover; object-position:center 22%; flex:none; display:block;" loading="lazy" decoding="async">
           <div>
             <div style="font-family:'Ubuntu',sans-serif; font-size:19px; line-height:1.25; font-weight:500; color:#05515B; letter-spacing:-0.006em; margin-bottom:6px;">Hans Veenstra</div>
