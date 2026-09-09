@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    { "source": "/about-us", "destination": "/about.html", "permanent": true },
+    { "source": "/about", "destination": "/about.html", "permanent": true },
+    { "source": "/our-approach", "destination": "/aim.html", "permanent": true },
+    { "source": "/aim", "destination": "/aim.html", "permanent": true },
+    { "source": "/services", "destination": "/solutions.html", "permanent": true },
+    { "source": "/our-work", "destination": "/projects.html", "permanent": true },
+    { "source": "/resources", "destination": "/insights.html", "permanent": true },
+    { "source": "/blog", "destination": "/insights.html", "permanent": true },
+    { "source": "/get-in-touch", "destination": "/contact.html", "permanent": true },
+    { "source": "/blog/:slug([^.]+)", "destination": "/blog/:slug.html", "permanent": true },
+    { "source": "/projects/:slug([^.]+)", "destination": "/projects/:slug.html", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
