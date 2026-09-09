@@ -94,11 +94,11 @@
     p { font-size:15px !important; line-height:1.6 !important; }
     .page-hero h1 { font-size:30px !important; line-height:1.2 !important; }
     .two-col-grid, .three-col-grid, .footer-cols-grid { display:flex !important; flex-direction:column !important; align-items:stretch !important; }
-    div:has(> .step-badge) { display:flex !important; flex-direction:row !important; flex-wrap:wrap !important; align-items:center !important; gap:16px !important; padding:20px !important; }
+    .step-card { display:flex !important; flex-direction:row !important; flex-wrap:wrap !important; align-items:center !important; gap:16px !important; padding:20px !important; }
     .step-badge { margin-bottom:0 !important; flex:none !important; }
-    div:has(> .step-badge) > div:nth-child(2) { margin-bottom:0 !important; flex:1 !important; min-width:0 !important; }
-    div:has(> .step-badge) > p, div:has(> .step-badge) > div:nth-child(3) { flex-basis:100% !important; width:100% !important; margin-top:12px !important; }
-    div:has(.step-badge) + p { margin-top:12px !important; }
+    .step-card > div:nth-child(2) { margin-bottom:0 !important; flex:1 !important; min-width:0 !important; }
+    .step-card > p, .step-card > div:nth-child(3) { flex-basis:100% !important; width:100% !important; margin-top:12px !important; }
+    .step-card + p { margin-top:12px !important; }
     .lift-card.three-col-grid { gap:0 !important; padding:20px !important; }
     .footer-legal-bar { flex-direction:column !important; align-items:center !important; text-align:center !important; gap:12px !important; font-size:12px !important; }
     .footer-legal-left { flex-direction:column !important; gap:8px !important; }
@@ -208,7 +208,7 @@
 
     <div class="three-col-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
 
-      <div class="lift-card" style="grid-column:span 2; background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
+      <div class="lift-card step-card" style="grid-column:span 2; background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
         <div class="step-badge" style="width:42px; height:42px; border-radius:12px; background:#F1F6F4; color:#B96A22; display:flex; align-items:center; justify-content:center; font-family:'Ubuntu',sans-serif; font-size:15px; font-weight:500; margin-bottom:26px;">01</div>
         <div style="font-family:'Ubuntu',sans-serif; font-size:26px; line-height:1.2; font-weight:500; color:#05515B; letter-spacing:-0.014em; margin-bottom:14px; text-wrap:balance;">Hydraulic system analysis</div>
         <div class="three-col-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:36px;">
@@ -217,13 +217,13 @@
         </div>
       </div>
 
-      <div class="lift-card" style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
+      <div class="lift-card step-card" style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
         <div class="step-badge" style="width:42px; height:42px; border-radius:12px; background:#F1F6F4; color:#B96A22; display:flex; align-items:center; justify-content:center; font-family:'Ubuntu',sans-serif; font-size:15px; font-weight:500; margin-bottom:26px;">02</div>
         <div style="font-family:'Ubuntu',sans-serif; font-size:26px; line-height:1.2; font-weight:500; color:#05515B; letter-spacing:-0.014em; margin-bottom:14px; text-wrap:balance;">Pressure monitoring and diagnostics</div>
         <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">Drawings and operational records do not always give up the answer. When they do not, we put field pressure monitoring equipment on the system and measure what it does while it runs. That data is tested against the hydraulic model to pinpoint the components and conditions driving the failure.</p>
       </div>
 
-      <div class="lift-card" style="grid-column:span 3; background:#05515B; border:1px solid #05515B; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
+      <div class="lift-card step-card" style="grid-column:span 3; background:#05515B; border:1px solid #05515B; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
         <div class="step-badge" style="width:42px; height:42px; border-radius:12px; background:rgba(255,255,255,0.13); color:#F4A258; display:flex; align-items:center; justify-content:center; font-family:'Ubuntu',sans-serif; font-size:15px; font-weight:500; margin-bottom:26px;">03</div>
         <div style="font-family:'Ubuntu',sans-serif; font-size:26px; line-height:1.2; font-weight:500; color:#FFFFFF; letter-spacing:-0.014em; margin-bottom:14px; text-wrap:balance;">Water hammer analysis</div>
         <div class="three-col-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:36px;">
@@ -232,14 +232,14 @@
         </div>
       </div>
 
-      <div class="lift-card" style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
+      <div class="lift-card step-card" style="background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:flex; flex-direction:column;">
         <div class="step-badge" style="width:42px; height:42px; border-radius:12px; background:#F1F6F4; color:#B96A22; display:flex; align-items:center; justify-content:center; font-family:'Ubuntu',sans-serif; font-size:15px; font-weight:500; margin-bottom:26px;">04</div>
         <div style="font-family:'Ubuntu',sans-serif; font-size:26px; line-height:1.2; font-weight:500; color:#05515B; letter-spacing:-0.014em; margin-bottom:14px; text-wrap:balance;">Targeted intervention recommendations</div>
         <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">Every assessment ends with a prioritised set of recommendations. Each one is weighed for its effect on performance and its cost, so you can see which fixes recover the most for the least spend. Where a targeted intervention will restore performance, we will not recommend wholesale replacement.</p>
       </div>
 
       <div class="lift-card three-col-grid" style="grid-column:span 2; background:#FFFFFF; border:1px solid #DCE7E4; border-radius:18px; padding:32px; display:grid; grid-template-columns:0.85fr 1.3fr; gap:44px; align-items:start;">
-        <div>
+        <div class="step-card">
           <div class="step-badge" style="width:42px; height:42px; border-radius:12px; background:#F1F6F4; color:#B96A22; display:flex; align-items:center; justify-content:center; font-family:'Ubuntu',sans-serif; font-size:15px; font-weight:500; margin-bottom:26px;">05</div>
           <div style="font-family:'Ubuntu',sans-serif; font-size:26px; line-height:1.2; font-weight:500; color:#05515B; letter-spacing:-0.014em; margin:0; text-wrap:balance;">Report and implementation support</div>
         </div>
