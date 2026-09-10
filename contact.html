@@ -212,7 +212,7 @@
       <div id="message-form" class="card-pad-lg" style="background:#05515B; border-radius:18px; padding:48px; color:#fff;">
         <div style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#F8C08C; font-weight:600; margin-bottom:18px;">Send us a message</div>
         <h2 style="font-family:'Ubuntu',sans-serif; font-size:34px; line-height:1.16; font-weight:500; letter-spacing:-0.015em; margin:0 0 28px; text-wrap:balance;">Tell us about the project</h2>
-        <form>
+        <form id="contact-form">
           <div class="form-grid-container" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
             <input type="text" name="name" placeholder="Name" required class="contact-input" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:12px; padding:15px 18px; font-size:15px; color:#fff; font-family:inherit; width:100%;">
             <input type="text" name="company" placeholder="Farm or company" class="contact-input" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.34); border-radius:12px; padding:15px 18px; font-size:15px; color:#fff; font-family:inherit; width:100%;">
@@ -227,6 +227,7 @@
             <span>Send message</span>
             <span>→</span>
           </button>
+          <div id="contact-form-status" style="display:none; margin-top:16px; font-size:14px; color:#F8C08C;"></div>
         </form>
       </div>
 
@@ -454,6 +455,48 @@
         btn.disabled = false;
         btn.textContent = originalText;
       });
+    });
+  });
+})();
+</script>
+<script>
+(function () {
+  var ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/25507063/4db4h0c/'; // ac-contact-form
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var status = document.getElementById('contact-form-status');
+  form.addEventListener('submit', function (e) {
+    if (!form.checkValidity()) { return; }
+    e.preventDefault();
+    var btn = form.querySelector('.send-btn');
+    var btnLabel = btn.querySelector('span');
+    var originalLabel = btnLabel.textContent;
+    var data = {
+      name: form.name.value.trim(),
+      company: form.company.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      project_location: form.project_location.value.trim(),
+      project_goal: form.project_goal.value.trim(),
+      source: 'contact-form',
+      page: location.pathname,
+      timestamp: new Date().toISOString()
+    };
+    btn.disabled = true;
+    btnLabel.textContent = 'Sending…';
+    fetch(ZAPIER_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(function (err) {
+      console.warn('Contact form webhook failed:', err);
+    }).finally(function () {
+      form.reset();
+      btn.disabled = false;
+      btnLabel.textContent = originalLabel;
+      status.textContent = "Thanks — we've received your message and will get back to you within one working day.";
+      status.style.display = 'block';
     });
   });
 })();
