@@ -6,6 +6,7 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { 'analytics_storage': 'denied' });
   gtag('js', new Date());
   gtag('config', 'G-MC5QZYCZ4W');
 </script>
@@ -13,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Pipeline Lifecycle Cost Analyser | Ant Consult</title>
 <meta name="description" content="Compare friction-loss energy and full lifecycle cost across pipe size options to find the optimum diameter for your irrigation project.">
+<link rel="canonical" href="https://www.antconsult.co.za/tools/pipeline-lifecycle-cost-analyser.html">
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -784,6 +786,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         btn.textContent = originalText;
       });
     });
+  });
+})();
+</script>
+<div id="cookie-banner" style="display:none; position:fixed; left:0; right:0; bottom:0; z-index:200; background:#05515B; color:#fff; padding:18px 5vw; box-shadow:0 -8px 30px rgba(4,40,46,0.28); font-family:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+    <p style="margin:0; font-size:14px; line-height:1.6; color:rgba(255,255,255,0.88); flex:1; min-width:240px;">We use cookies to understand how visitors use this site and improve it. See our <a href="/assets/ant-consult-paia-manual.pdf" style="color:#F8C08C; text-decoration:underline;">Privacy Policy</a> for details.</p>
+    <div style="display:flex; gap:10px; flex:none;">
+      <button id="cookie-decline" type="button" style="background:transparent; border:1px solid rgba(255,255,255,0.4); color:#fff; padding:10px 20px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit;">Decline</button>
+      <button id="cookie-accept" type="button" style="background:#F4A258; border:none; color:#08343C; padding:10px 20px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit;">Accept</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'ant_cookie_consent';
+  var banner = document.getElementById('cookie-banner');
+  var stored = localStorage.getItem(KEY);
+  if (stored === 'granted') {
+    gtag('consent', 'update', { 'analytics_storage': 'granted' });
+  } else if (stored !== 'denied') {
+    banner.style.display = 'block';
+  }
+  document.getElementById('cookie-accept').addEventListener('click', function () {
+    localStorage.setItem(KEY, 'granted');
+    gtag('consent', 'update', { 'analytics_storage': 'granted' });
+    banner.style.display = 'none';
+  });
+  document.getElementById('cookie-decline').addEventListener('click', function () {
+    localStorage.setItem(KEY, 'denied');
+    banner.style.display = 'none';
   });
 })();
 </script>
