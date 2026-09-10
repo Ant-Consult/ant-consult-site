@@ -28,7 +28,7 @@
   a:hover { color:#05515B; }
   ::selection { background:#F4A258; color:#fff; }
 .mobile-nav-toggle { position:absolute; opacity:0; pointer-events:none; }
-  html:has(.mobile-nav-toggle:checked), body:has(.mobile-nav-toggle:checked) { overflow:hidden !important; }
+  html.nav-open, body.nav-open { overflow:hidden !important; }
   .hamburger-btn { display:none; flex-direction:column; justify-content:center; gap:5px; width:26px; height:20px; cursor:pointer; flex:none; }
   .hamburger-btn span { display:block; height:2px; background:#fff; border-radius:1px; }
   img { max-width:100%; }
@@ -412,6 +412,14 @@
     banner.style.display = 'none';
   });
 })();
+</script>
+<script>
+document.querySelectorAll('.mobile-nav-toggle').forEach(function (toggle) {
+  toggle.addEventListener('change', function () {
+    document.documentElement.classList.toggle('nav-open', toggle.checked);
+    document.body.classList.toggle('nav-open', toggle.checked);
+  });
+});
 </script>
 </body>
 </html>

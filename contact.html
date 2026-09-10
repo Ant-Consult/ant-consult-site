@@ -28,7 +28,7 @@
   a:hover { color:#05515B; }
   ::selection { background:#F4A258; color:#fff; }
 .mobile-nav-toggle { position:absolute; opacity:0; pointer-events:none; }
-  html:has(.mobile-nav-toggle:checked), body:has(.mobile-nav-toggle:checked) { overflow:hidden !important; }
+  html.nav-open, body.nav-open { overflow:hidden !important; }
   .hamburger-btn { display:none; flex-direction:column; justify-content:center; gap:5px; width:26px; height:20px; cursor:pointer; flex:none; }
   .hamburger-btn span { display:block; height:2px; background:#fff; border-radius:1px; }
   img { max-width:100%; }
@@ -57,24 +57,9 @@
   .faq-label { position:relative; }
   .faq-panel { display:none; }
   .faq-sign-minus { display:none; }
-  .faq-item-0:has(#faq-0:checked) .faq-panel,
-  .faq-item-1:has(#faq-1:checked) .faq-panel,
-  .faq-item-2:has(#faq-2:checked) .faq-panel,
-  .faq-item-3:has(#faq-3:checked) .faq-panel,
-  .faq-item-4:has(#faq-4:checked) .faq-panel,
-  .faq-item-5:has(#faq-5:checked) .faq-panel { display:flex; }
-  .faq-item-0:has(#faq-0:checked) .faq-sign-plus,
-  .faq-item-1:has(#faq-1:checked) .faq-sign-plus,
-  .faq-item-2:has(#faq-2:checked) .faq-sign-plus,
-  .faq-item-3:has(#faq-3:checked) .faq-sign-plus,
-  .faq-item-4:has(#faq-4:checked) .faq-sign-plus,
-  .faq-item-5:has(#faq-5:checked) .faq-sign-plus { display:none; }
-  .faq-item-0:has(#faq-0:checked) .faq-sign-minus,
-  .faq-item-1:has(#faq-1:checked) .faq-sign-minus,
-  .faq-item-2:has(#faq-2:checked) .faq-sign-minus,
-  .faq-item-3:has(#faq-3:checked) .faq-sign-minus,
-  .faq-item-4:has(#faq-4:checked) .faq-sign-minus,
-  .faq-item-5:has(#faq-5:checked) .faq-sign-minus { display:inline; }
+  .faq-item.open .faq-panel { display:flex; }
+  .faq-item.open .faq-sign-plus { display:none; }
+  .faq-item.open .faq-sign-minus { display:inline; }
 
   .newsletter-btn { background:#F4A258; color:#08343C; transition:all 0.3s ease; }
   .newsletter-btn:hover { background:transparent; color:#F4A258; box-shadow:inset 0 0 0 1px #F4A258; }
@@ -362,7 +347,7 @@
         <p style="font-size:15px; line-height:1.7; color:#2A3A38; margin:0; text-wrap:pretty;">If yours is not here, ask it in the form. We would rather answer a question early than quote in the dark.</p>
       </div>
       <div class="faq-list" style="display:flex; flex-direction:column; gap:14px;">
-        <div class="faq-item-0" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
+        <div class="faq-item-0 faq-item" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
           <label for="faq-0" class="faq-label" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding:24px 28px; cursor:pointer;">
             <input type="radio" name="faq" id="faq-0" class="faq-radio" checked>
             <div style="font-family:'Ubuntu',sans-serif; font-size:21px; line-height:1.32; font-weight:500; color:#12312F; letter-spacing:-0.013em; text-wrap:pretty;">What will the system itself cost?</div>
@@ -372,7 +357,7 @@
             <p style="font-size:15px; line-height:1.75; color:#2A3A38; margin:0; text-wrap:pretty;">It depends on far more than hectares: the crop and its peak demand, how far and how high the water has to be moved, what your power situation is, and whether you are building new or working around existing infrastructure. Our online cost estimator will give you a ballpark in a few minutes, and it is the fastest way to find out whether a project is worth taking further. The firm number comes out of the design, where the capital cost is traded off against what the system will cost you to run for the next twenty years.</p>
           </div>
         </div>
-        <div class="faq-item-1" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
+        <div class="faq-item-1 faq-item" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
           <label for="faq-1" class="faq-label" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding:24px 28px; cursor:pointer;">
             <input type="radio" name="faq" id="faq-1" class="faq-radio">
             <div style="font-family:'Ubuntu',sans-serif; font-size:21px; line-height:1.32; font-weight:500; color:#12312F; letter-spacing:-0.013em; text-wrap:pretty;">What do you charge?</div>
@@ -385,7 +370,7 @@
             <p style="font-size:15px; line-height:1.75; color:#2A3A38; margin:0; text-wrap:pretty;">Where ongoing services are required we will consider a retainer: a set monthly fee for up to a certain amount of non-transferable time, which makes cash flow predictable for both of us.</p>
           </div>
         </div>
-        <div class="faq-item-2" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
+        <div class="faq-item-2 faq-item" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
           <label for="faq-2" class="faq-label" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding:24px 28px; cursor:pointer;">
             <input type="radio" name="faq" id="faq-2" class="faq-radio">
             <div style="font-family:'Ubuntu',sans-serif; font-size:21px; line-height:1.32; font-weight:500; color:#12312F; letter-spacing:-0.013em; text-wrap:pretty;">Do you sell irrigation equipment?</div>
@@ -395,7 +380,7 @@
             <p style="font-size:15px; line-height:1.75; color:#2A3A38; margin:0; text-wrap:pretty;">No, and this is deliberate. We earn nothing on hardware, so every component we specify is chosen on technical merit and fit for your site. It also means we can compare supplier quotes for you without having a stake in the answer. An irrigation system is a utility, and it is expensive to change once it is in the ground.</p>
           </div>
         </div>
-        <div class="faq-item-3" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
+        <div class="faq-item-3 faq-item" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
           <label for="faq-3" class="faq-label" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding:24px 28px; cursor:pointer;">
             <input type="radio" name="faq" id="faq-3" class="faq-radio">
             <div style="font-family:'Ubuntu',sans-serif; font-size:21px; line-height:1.32; font-weight:500; color:#12312F; letter-spacing:-0.013em; text-wrap:pretty;">How do I know the design will actually work?</div>
@@ -405,7 +390,7 @@
             <p style="font-size:15px; line-height:1.75; color:#2A3A38; margin:0; text-wrap:pretty;">Our irrigation work is led by a registered professional engineer, and the engineer you speak to is the engineer on your project. Designs are informed by the South African Irrigation Institute Norms and Standards and the Irrigation Design Manual, with FAO56 from the Food and Agriculture Organization of the United Nations as a further resource. We carry full professional indemnity insurance, currently underwritten by Hollard, and we contract on the Consulting Engineers South Africa (CESA) short form of agreement. If a system we designed is not operating as intended, we will troubleshoot it and train your team on it at no charge.</p>
           </div>
         </div>
-        <div class="faq-item-4" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
+        <div class="faq-item-4 faq-item" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
           <label for="faq-4" class="faq-label" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding:24px 28px; cursor:pointer;">
             <input type="radio" name="faq" id="faq-4" class="faq-radio">
             <div style="font-family:'Ubuntu',sans-serif; font-size:21px; line-height:1.32; font-weight:500; color:#12312F; letter-spacing:-0.013em; text-wrap:pretty;">How quickly can you start?</div>
@@ -415,7 +400,7 @@
             <p style="font-size:15px; line-height:1.75; color:#2A3A38; margin:0; text-wrap:pretty;">Generally within two weeks, depending on current workload. You get a programme with the proposal, so the timeline is agreed before you commit to anything.</p>
           </div>
         </div>
-        <div class="faq-item-5" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
+        <div class="faq-item-5 faq-item" style="background:#F4F7F6; border:1px solid #E7EEEC; border-radius:18px; overflow:hidden;">
           <label for="faq-5" class="faq-label" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding:24px 28px; cursor:pointer;">
             <input type="radio" name="faq" id="faq-5" class="faq-radio">
             <div style="font-family:'Ubuntu',sans-serif; font-size:21px; line-height:1.32; font-weight:500; color:#12312F; letter-spacing:-0.013em; text-wrap:pretty;">What do you need from me to get started?</div>
@@ -580,6 +565,29 @@
     localStorage.setItem(KEY, 'denied');
     banner.style.display = 'none';
   });
+})();
+</script>
+<script>
+document.querySelectorAll('.mobile-nav-toggle').forEach(function (toggle) {
+  toggle.addEventListener('change', function () {
+    document.documentElement.classList.toggle('nav-open', toggle.checked);
+    document.body.classList.toggle('nav-open', toggle.checked);
+  });
+});
+</script>
+<script>
+(function () {
+  var radios = document.querySelectorAll('.faq-radio');
+  function syncOpenFaq() {
+    radios.forEach(function (radio) {
+      var item = radio.closest('.faq-item');
+      if (item) item.classList.toggle('open', radio.checked);
+    });
+  }
+  radios.forEach(function (radio) {
+    radio.addEventListener('change', syncOpenFaq);
+  });
+  syncOpenFaq();
 })();
 </script>
 </body>
