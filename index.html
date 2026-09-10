@@ -894,5 +894,35 @@
 
 </div>
 
+<script>
+(function () {
+  var ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/25507063/4dozk6f/'; // ac-newsletter-subscribe
+  document.querySelectorAll('.newsletter-form').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) { return; }
+      e.preventDefault();
+      var input = form.querySelector('.newsletter-input');
+      var btn = form.querySelector('.newsletter-btn');
+      var email = input.value.trim();
+      var originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Subscribing\u2026';
+      fetch(ZAPIER_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'newsletter', page: location.pathname, timestamp: new Date().toISOString() })
+      }).catch(function (err) {
+        console.warn('Newsletter webhook failed:', err);
+      }).finally(function () {
+        input.value = '';
+        input.placeholder = "Thanks \u2014 you're subscribed!";
+        btn.disabled = false;
+        btn.textContent = originalText;
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>
