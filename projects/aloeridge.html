@@ -111,6 +111,40 @@
     .page-hero h1 { font-size:30px !important; line-height:1.2 !important; }
     .two-col-grid, .three-col-grid, .footer-cols-grid { display:flex !important; flex-direction:column !important; align-items:stretch !important; }
   }
+  @media (max-width:1140px) and (min-width:769px) {
+    .hamburger-btn { display:flex !important; }
+    .nav-links-row {
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column !important;
+      align-items:stretch !important;
+      gap:0 !important;
+      background:#05515B;
+      padding:10px 22px 26px !important;
+      border-top:1px solid rgba(255,255,255,0.14);
+      box-shadow:0 20px 40px rgba(4,40,46,0.28);
+      z-index:60;
+      opacity:0 !important;
+      visibility:hidden !important;
+      transform:translateY(-8px) !important;
+      transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+    }
+    .mobile-nav-toggle:checked ~ .nav-links-row {
+      opacity:1 !important;
+      visibility:visible !important;
+      transform:translateY(0) !important;
+    }
+    .nav-links-row > a, .nav-links-row .nav-link {
+      display:block !important;
+      width:100% !important;
+      padding:14px 6px !important;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+    }
+    .nav-links-row .nav-drop { width:100%; }
+    .nav-links-row .nav-drop-panel { display:none !important; }
+    .nav-links-row span[style*="width:1px"] { display:none !important; }
+    .nav-links-row .roi-btn { display:inline-block !important; width:auto !important; margin:14px 0 0 !important; text-align:center; }
+  }
+
 </style>
 <script type="application/ld+json">
 {

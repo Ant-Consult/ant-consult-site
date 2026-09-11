@@ -64,6 +64,40 @@
     .mobile-only-view { display:block; }
   }
 
+  .desktop-hamburger-btn { display:none; flex-direction:column; justify-content:center; gap:5px; width:26px; height:20px; cursor:pointer; flex:none; }
+  .desktop-hamburger-btn span { display:block; height:2px; background:#fff; border-radius:1px; }
+  @media (max-width:1140px) and (min-width:769px) {
+    .desktop-hamburger-btn { display:flex !important; }
+    .desktop-nav-links {
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column !important;
+      align-items:stretch !important;
+      gap:0 !important;
+      background:#05515B;
+      padding:10px 22px 26px !important;
+      border-top:1px solid rgba(255,255,255,0.14);
+      box-shadow:0 20px 40px rgba(4,40,46,0.28);
+      z-index:60;
+      opacity:0 !important;
+      visibility:hidden !important;
+      transform:translateY(-8px) !important;
+      transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+    }
+    #desktop-nav-toggle:checked ~ .desktop-nav-links {
+      opacity:1 !important;
+      visibility:visible !important;
+      transform:translateY(0) !important;
+    }
+    .desktop-nav-links > a {
+      display:block !important;
+      width:100% !important;
+      padding:14px 6px !important;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+    }
+    .desktop-nav-links span[style*="width:1px"] { display:none !important; }
+    .desktop-nav-links .roi-btn { display:none !important; }
+  }
+
   .hover-fade { transition:color 140ms ease; }
   .hover-fade:hover { color:#F8C08C !important; }
   .engineer-link { color:#05515B; border-bottom:2px solid #F4A258; transition:color 140ms ease, border-color 140ms ease; }
@@ -156,7 +190,9 @@
       <div style="display:flex; align-items:center; gap:8px; font-family:'Ubuntu',sans-serif;">
         <a href="index.html" style="display:block;"><img src="assets/logo.png" alt="Ant Consult" style="height:52px; width:auto; display:block;" loading="eager" decoding="async"></a>
       </div>
-      <div style="display:flex; align-items:center; gap:30px; font-size:15px; color:rgba(255,255,255,0.92);">
+      <input type="checkbox" id="desktop-nav-toggle" class="mobile-nav-toggle">
+      <label for="desktop-nav-toggle" class="desktop-hamburger-btn" aria-label="Open menu"><span></span><span></span></label>
+      <div class="desktop-nav-links" style="display:flex; align-items:center; gap:30px; font-size:15px; color:rgba(255,255,255,0.92);">
         <a href="about.html" style="cursor:pointer; color:inherit; text-decoration:none;">About</a>
         <a href="aim.html" style="cursor:pointer; color:inherit; text-decoration:none;">Our Method</a>
         <a href="solutions.html" style="cursor:pointer; color:inherit; text-decoration:none;">Solutions</a>
