@@ -63,9 +63,9 @@
   .nav-drop-all { color:#05515B; transition:color 140ms ease; }
   .nav-drop-all:hover { color:#B96A22; }
 
-@media (max-width:1024px) {
-  .footer-cols-grid { display:flex !important; flex-direction:column !important; align-items:stretch !important; }
-}
+@media (max-width:1024px) and (min-width:769px) {
+    .footer-cols-grid { grid-template-columns:repeat(2, 1fr) !important; justify-content:normal !important; gap:32px !important; }
+  }
 @media (max-width: 768px) {
     .page-hero-media { background:linear-gradient(180deg,rgba(5,81,91,0.82) 0%,rgba(5,81,91,0.90) 55%,rgba(5,81,91,0.94) 100%),url('assets/ant-implementation-method-hero.webp') center 62%/cover no-repeat !important; }
     .section-pad-lg { padding:36px 22px !important; }
@@ -486,7 +486,7 @@
 
   <!-- FOOTER -->
   <div class="section-pad-lg" style="background:#05515B; color:#fff; padding:72px 5vw 32px;">
-    <div class="footer-cols-grid" style="display:grid; grid-template-columns:1.4fr 1fr 1.3fr 1.2fr minmax(270px,1.2fr); gap:40px; padding-bottom:56px;">
+    <div class="footer-cols-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 280px)); justify-content:space-between; gap:40px; padding-bottom:56px;">
       <div>
         <a href="index.html" style="display:block;"><img src="assets/logo.png" alt="Ant Consult" style="height:34px; width:auto; display:block; margin-bottom:24px;" loading="lazy" decoding="async"></a>
         <div style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.75);">10 Hilton Avenue, Hilton<br>Pietermaritzburg, 3201</div>
