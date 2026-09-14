@@ -461,8 +461,7 @@
       fetch(ZAPIER_WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'newsletter', page: location.pathname, timestamp: new Date().toISOString() })
+        body: new URLSearchParams({ email: email, source: 'newsletter', page: location.pathname, timestamp: new Date().toISOString() })
       }).catch(function (err) {
         console.warn('Newsletter webhook failed:', err);
       }).finally(function () {

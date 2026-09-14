@@ -685,8 +685,8 @@ async function submitGate(e) {
 
   try {
     await fetch(CONFIG.ZAPIER_WEBHOOK_URL, {
-      method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, town, source: 'irrigation-roi-calculator', timestamp: new Date().toISOString(), inputs: lastResults ? lastResults.inputs : null })
+      method: 'POST', mode: 'no-cors',
+      body: new URLSearchParams({ name, email, town, source: 'irrigation-roi-calculator', timestamp: new Date().toISOString(), inputs: JSON.stringify(lastResults ? lastResults.inputs : null) })
     });
   } catch (err) { console.warn('Webhook failed (continuing):', err); }
 
@@ -741,8 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch(ZAPIER_WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'newsletter', page: location.pathname, timestamp: new Date().toISOString() })
+        body: new URLSearchParams({ email: email, source: 'newsletter', page: location.pathname, timestamp: new Date().toISOString() })
       }).catch(function (err) {
         console.warn('Newsletter webhook failed:', err);
       }).finally(function () {
