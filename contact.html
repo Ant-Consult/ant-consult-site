@@ -540,6 +540,12 @@
   var form = document.getElementById('contact-form');
   if (!form) return;
   var status = document.getElementById('contact-form-status');
+  function normalizePhone(raw) {
+    var digits = raw.replace(/\D/g, '');
+    if (!digits) return '';
+    if (digits.charAt(0) === '0') { digits = '27' + digits.slice(1); }
+    return digits;
+  }
   form.addEventListener('submit', function (e) {
     if (!form.checkValidity()) { return; }
     e.preventDefault();
@@ -550,7 +556,7 @@
       name: form.name.value.trim(),
       company: form.company.value.trim(),
       email: form.email.value.trim(),
-      phone: form.phone.value.trim(),
+      phone: normalizePhone(form.phone.value),
       project_location: form.project_location.value.trim(),
       project_goal: form.project_goal.value.trim(),
       source: 'contact-form',
