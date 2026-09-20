@@ -149,9 +149,14 @@ const POST_BODY_BLOCK = `      <!-- POST BODY (Webflow CMS field: Post Body — 
 
 const AUTHOR_PHOTO_BLOCK = `<div class="cms-slot" style="width:56px; height:56px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:9px; color:#5E6E6A; text-align:center; line-height:1.3;">[[ AUTHOR<br>PHOTO ]]</div>`;
 
+// blog-template.html carries its own noindex so the bare template can't be indexed on the live
+// site. Strip it from every generated post so they start out indexable (drafts get theirs below).
+const TEMPLATE_NOINDEX_TAG = '<meta name="robots" content="noindex">\n';
+
 if (!template.includes(FEATURED_IMAGE_BLOCK)) throw new Error('Featured image placeholder block not found in template — has blog-template.html changed?');
 if (!template.includes(POST_BODY_BLOCK)) throw new Error('Post body placeholder block not found in template — has blog-template.html changed?');
 if (!template.includes(AUTHOR_PHOTO_BLOCK)) throw new Error('Author photo placeholder block not found in template — has blog-template.html changed?');
+if (!template.includes(TEMPLATE_NOINDEX_TAG)) throw new Error('Template noindex tag not found in template — has blog-template.html changed?');
 
 // -- Load + parse the CSV --
 const csvRaw = fs.readFileSync(CSV_PATH, 'utf8');
@@ -203,6 +208,7 @@ for (const r of records) {
   const authorPhotoReplacement = `<div style="width:56px; height:56px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; background:#05515B; color:#fff; font-family:'Ubuntu',sans-serif; font-size:16px; font-weight:500;">${escapeHtml(initials(authorName))}</div>`;
   page = page.replace(AUTHOR_PHOTO_BLOCK, authorPhotoReplacement);
 
+  page = page.replace(TEMPLATE_NOINDEX_TAG, '');
   if (isDraft) {
     page = page.replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"');
   }
