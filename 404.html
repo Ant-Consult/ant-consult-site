@@ -153,26 +153,6 @@
     </div>
   </div>
 </div>
-<script>
-(function () {
-  var KEY = 'ant_cookie_consent';
-  var banner = document.getElementById('cookie-banner');
-  var stored = localStorage.getItem(KEY);
-  if (stored === 'granted') {
-    gtag('consent', 'update', { 'analytics_storage': 'granted' });
-  } else if (stored !== 'denied') {
-    banner.style.display = 'block';
-  }
-  document.getElementById('cookie-accept').addEventListener('click', function () {
-    localStorage.setItem(KEY, 'granted');
-    gtag('consent', 'update', { 'analytics_storage': 'granted' });
-    banner.style.display = 'none';
-  });
-  document.getElementById('cookie-decline').addEventListener('click', function () {
-    localStorage.setItem(KEY, 'denied');
-    banner.style.display = 'none';
-  });
-})();
-</script>
+<script src="site.js?v=1" defer></script>
 </body>
 </html>
