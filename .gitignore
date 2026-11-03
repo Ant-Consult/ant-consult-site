@@ -12,3 +12,6 @@ Website homepage refinement/
 
 # Dependencies (in case a build step is added later)
 node_modules/
+
+# Local preview config for the Claude Code browser pane
+.claude/
