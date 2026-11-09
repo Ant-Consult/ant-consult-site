@@ -1,4 +1,4 @@
-/* Referenced as ?v=2. Bump that number in every page that links this file whenever you change it, so browsers fetch the new copy. */
+/* Referenced as ?v=3. Bump that number in every page that links this file whenever you change it, so browsers fetch the new copy. */
 /* Shared by 18 pages. Extracted from the inline <style> block they all carried. */
 html, body { margin:0; padding:0; max-width:100vw; width:100%; overflow-x:hidden; }
   *, *::before, *::after { box-sizing: border-box; }
@@ -50,10 +50,36 @@ html, body { margin:0; padding:0; max-width:100vw; width:100%; overflow-x:hidden
   .post-body figure { margin:0 0 24px; }
   .post-body figcaption { font-size:13px; color:#5E6E6A; margin-top:8px; }
 
+
+  /* Comparison tables. .table-scroll lets a wide table pan sideways on a phone
+     instead of squeezing its columns to nothing. */
+  .post-body .table-scroll { overflow-x:auto; margin:0 0 24px; -webkit-overflow-scrolling:touch; }
+  .post-body table { border-collapse:collapse; width:100%; min-width:520px; font-size:15px; line-height:1.6; color:#2A3A38; }
+  .post-body thead th { font-family:'Ubuntu',sans-serif; font-weight:500; font-size:15px; color:#12312F; text-align:left; vertical-align:bottom; padding:0 16px 10px; border-bottom:2px solid #05515B; }
+  .post-body tbody th { font-weight:600; color:#12312F; text-align:left; vertical-align:top; padding:12px 16px; width:30%; }
+  .post-body tbody td { vertical-align:top; padding:12px 16px; }
+  .post-body tbody tr + tr th, .post-body tbody tr + tr td { border-top:1px solid #DFE9E6; }
+  .post-body tbody tr:nth-child(odd) { background:#F4F7F6; }
+  .post-body thead th:first-child, .post-body tbody th { padding-left:0; }
+  .post-body thead th:last-child, .post-body tbody td:last-child { padding-right:0; }
   @media (max-width:1024px) and (min-width:769px) {
     .footer-cols-grid { grid-template-columns:repeat(2, 1fr) !important; justify-content:normal !important; gap:32px !important; }
   }
   @media (max-width: 768px) {
+      /* Stack the comparison table: side-scrolling would hide the column
+         the reader is comparing against. */
+      .post-body .table-scroll { overflow-x:visible; }
+      .post-body table { display:block; min-width:0; width:100%; font-size:15px; }
+      .post-body thead { display:none; }
+      .post-body tbody, .post-body tbody tr, .post-body tbody th, .post-body tbody td { display:block; width:auto; }
+      .post-body tbody tr { padding:16px 0; border-top:1px solid #DFE9E6; }
+      .post-body tbody tr:nth-child(odd) { background:none; }
+      .post-body tbody tr:first-child { border-top:none; padding-top:0; }
+      .post-body tbody tr + tr th, .post-body tbody tr + tr td { border-top:none; }
+      .post-body tbody th { padding:0 0 10px; font-size:16px; }
+      .post-body tbody td { padding:0 0 10px; }
+      .post-body tbody td:last-child { padding-bottom:0; }
+      .post-body tbody td::before { content:attr(data-label); display:block; font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:#5E6E6A; margin-bottom:3px; }
     .section-pad-lg { padding:36px 22px !important; }
     h2 { font-size:26px !important; line-height:1.3 !important; }
   .case-body h3, .post-body h3 { font-size:19px; }
