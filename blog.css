@@ -62,6 +62,17 @@ html, body { margin:0; padding:0; max-width:100vw; width:100%; overflow-x:hidden
   .post-body tbody tr:nth-child(odd) { background:#F4F7F6; }
   .post-body thead th:first-child, .post-body tbody th { padding-left:0; }
   .post-body thead th:last-child, .post-body tbody td:last-child { padding-right:0; }
+
+  /* Four columns do not fit the 760px reading width, so the row header gives up
+     space and, on a wide screen, the table reaches past the text column. */
+  .post-body table.table-4col { font-size:14.5px; }
+  .post-body table.table-4col tbody th { width:20%; }
+  .post-body table.table-4col thead th, .post-body table.table-4col tbody th, .post-body table.table-4col tbody td { padding-left:11px; padding-right:11px; }
+  .post-body table.table-4col thead th:first-child, .post-body table.table-4col tbody th { padding-left:0; }
+  .post-body table.table-4col thead th:last-child, .post-body table.table-4col tbody td:last-child { padding-right:0; }
+  @media (min-width:1140px) {
+    .post-body .table-scroll.wide { margin-left:-112px; margin-right:-112px; }
+  }
   @media (max-width:1024px) and (min-width:769px) {
     .footer-cols-grid { grid-template-columns:repeat(2, 1fr) !important; justify-content:normal !important; gap:32px !important; }
   }
@@ -80,6 +91,11 @@ html, body { margin:0; padding:0; max-width:100vw; width:100%; overflow-x:hidden
       .post-body tbody td { padding:0 0 10px; }
       .post-body tbody td:last-child { padding-bottom:0; }
       .post-body tbody td::before { content:attr(data-label); display:block; font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:#5E6E6A; margin-bottom:3px; }
+      /* the four column tweaks above are for the wide layout only: once the
+         table stacks, every cell is full width again */
+      .post-body table.table-4col { font-size:15px; }
+      .post-body table.table-4col tbody th { width:auto; }
+      .post-body table.table-4col thead th, .post-body table.table-4col tbody th, .post-body table.table-4col tbody td { padding-left:0; padding-right:0; }
     .section-pad-lg { padding:36px 22px !important; }
     h2 { font-size:26px !important; line-height:1.3 !important; }
   .case-body h3, .post-body h3 { font-size:19px; }
